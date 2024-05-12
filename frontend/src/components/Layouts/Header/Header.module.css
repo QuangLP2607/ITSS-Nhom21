@@ -1,0 +1,41 @@
+.header-background {
+    position: relative;
+    height: 100px; 
+    background: linear-gradient(135deg,rgb(20, 39, 70)30%,rgb(66, 123, 238) 100%);
+    z-index: 999;
+}
+
+.header-title {
+    margin-left: 5vw; 
+    height: 80px;
+    font-family: "Times New Roman", Times, serif;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.header-user {
+    position: absolute;
+    right: 2vw; 
+}
+
+@media (max-width: 680px) {
+    .header-title {
+        position: absolute;
+        top: 5px;
+    }
+
+    .header-user {
+        position: absolute;
+        top: 60px;
+    }
+}
+
+@media (max-width: 460px) {
+    .header-title {
+        line-height: 60px;
+        font-size: 40px;
+    }
+}
+
+

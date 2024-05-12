@@ -1,0 +1,91 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #d7d7d7;
+}
+
+body {
+    background-color: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(176, 176, 176) 100%);
+}
+
+.main-background {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-top: 2vh; 
+    margin-left: 20vw;
+    width: 78vw;
+    padding-bottom: 30px;
+}
+
+.title {
+    position: relative;
+    top: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.left-title {
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+    font-size: 25px;
+}
+
+.search-input{
+    margin-top: 20px;
+    margin-left: 35px;
+}
+
+.button-search{
+    position: absolute;
+    height: 30px; 
+    font-size: 14px;
+    text-align: 'center'; 
+    line-height: normal;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.table-1000 {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.table-1300 {
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.add-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.img-button-container {
+    overflow: hidden;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.img-button {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+    .main-background  {
+        margin-left: 4vw;
+        width: 92vw;
+    }
+}

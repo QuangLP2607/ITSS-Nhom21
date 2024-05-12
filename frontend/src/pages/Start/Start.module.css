@@ -1,0 +1,67 @@
+/* body, html {
+    overflow: hidden; 
+} */
+
+.startBackground {
+    background-image: url('../../../assets/img/Start.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: calc(100vh - 100px);
+}
+
+.mainContainer {
+    position: absolute;
+    top: 180px;
+    left: 0;
+    right: 0;
+    width: 600px;
+    height: 480px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Màu trắng với độ mờ 50% */
+}
+
+.hello {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    color: rgb(100, 100, 218); 
+    font-size: 24px; 
+    font-weight: bold; /* In đậm */
+}
+
+.tab {
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: black; /* Màu chữ mặc định */
+}
+
+.activeTab {
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: blue; /* Màu chữ khi tab được chọn */
+}
+
+.btn{
+    background: linear-gradient(135deg,rgb(56, 56, 56) 0%,rgb(0, 0, 0) 100%);
+    width: 100%;
+    margin: 10px 0;
+    height: 35px;
+    border-radius: 15px;
+    outline: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+}
+
+
