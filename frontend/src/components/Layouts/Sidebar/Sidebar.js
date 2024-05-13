@@ -7,8 +7,8 @@ import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const [showMenu, setShowMenu] = useState(window.innerWidth > 1000); // Ban đầu hiển thị sidebar
-    const [showOverlay, setShowOverlay] = useState(false); // Trạng thái hiển thị lớp phủ
+    const [showMenu, setShowMenu] = useState(window.innerWidth > 1000); 
+    const [showOverlay, setShowOverlay] = useState(false); 
 
     const handleLogout = () => {
         try {
@@ -23,7 +23,7 @@ const Sidebar = () => {
 
     const handleHamburgerButtonClick = () => {
         setShowMenu(!showMenu && window.innerWidth <= 1000);
-        setShowOverlay(!showMenu && window.innerWidth <= 1000); // Hiển thị lớp phủ khi ẩn sidebar
+        setShowOverlay(!showMenu && window.innerWidth <= 1000);
     };
 
     const handleOutsideClick = (event) => {
@@ -43,7 +43,7 @@ const Sidebar = () => {
     useEffect(() => {
         const handleResize = () => {
             setShowMenu(window.innerWidth > 1000);
-            setShowOverlay(false); // Ẩn lớp phủ khi resize màn hình
+            setShowOverlay(false); 
         };
 
         window.addEventListener('resize', handleResize);

@@ -21,9 +21,7 @@ export const ShoppingList = () => {
         itemname: '',
         quantity: '',
         note: '',
-        status: '',
-        groupid: localStorage.getItem('groupId'),
-        dateadded: ''
+        status: ''
     });
     const [isNewItemRowVisible, setIsNewItemRowVisible] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
@@ -33,10 +31,6 @@ export const ShoppingList = () => {
     const groupId = localStorage.getItem('groupId'); 
     //-------------------------------------------------------
     //-------------------Lấy API item-------------------
-    useEffect(() => {
-        
-    }, []); 
-    
     const fetchSearchItems = async () => {
         try {
             let response = await axios.get(`/users/shoppingitems?groupid=${groupId}&dateadded=${selectedDate}`);
@@ -48,7 +42,10 @@ export const ShoppingList = () => {
             console.error('Error fetching items:', error);
         }
     };
-   
+    
+    useEffect(() => {
+        fetchSearchItems();
+    }, [selectedDate]);
     //-------------------------------------------------------
     //-------------------Thêm item-------------------
     useEffect(() => {
@@ -93,9 +90,8 @@ export const ShoppingList = () => {
             setItems(prevItems => [...prevItems, { ...newItem, id: items.length + 1 }]);
             setCurrentPage(totalPages);
             setIsNewItemRowVisible(false);
-            newItem.dateadded = selectedDate;
             localStorage.getItem('groupId')
-            await addToDatabase(); // Đợi cho addToDatabase hoàn tất trước khi tiếp tục
+            await addToDatabase(); 
         } else {
             setShowAlert(true);
         }
@@ -104,7 +100,12 @@ export const ShoppingList = () => {
     
     const addToDatabase = async () => {  
         try {
-            const response = await axios.post('/users/shoppingitems/add', newItem);
+            const response = await axios.post('/users/shoppingitems', {
+                ...newItem,
+                dateadded: selectedDate,
+                groupid: localStorage.getItem('groupId')
+            });
+            
             console.log('Response:', response.data);
         } catch (error) {
             console.error('Error adding item:', error);
@@ -113,26 +114,26 @@ export const ShoppingList = () => {
     
     //-------------------------------------------------------
     //-------------------Xử lý chọn ngày-------------------
-    const handleDateChange = (event) => {
-        const newDate = event.target.value;
-        console.log("Selected Date:", newDate);
+    const handleDateChange = async (event) => {
+        const newDate = event.target.value;  
         setSelectedDate(newDate);
-        fetchSearchItems();
     };
-
+    
     const handlePreviousDay = async () => {
         const currentDate = new Date(selectedDate);
         currentDate.setDate(currentDate.getDate() - 1);
         setSelectedDate(currentDate.toISOString().slice(0, 10));
-        await fetchSearchItems();
     };
-
+    
+    
+    
+    
     const handleNextDay = async () => {
         const currentDate = new Date(selectedDate);
         currentDate.setDate(currentDate.getDate() + 1);
         setSelectedDate(currentDate.toISOString().slice(0, 10));
-        await fetchSearchItems();
     };
+    
     //-------------------------------------------------------
     //-------------------Delete Update item-------------------
     const handleDelete = (itemId) => {

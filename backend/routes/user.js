@@ -15,10 +15,9 @@ const router = express.Router();
     .get(isAuthUser,UserControllers.getItemsList);
 
     router.route('/shoppingitems')
-    .get(isAuthUser,UserControllers.getShoppingItems);
-
-    router.route('/shoppingitems/add')
-    .post(UserControllers.addShoppingItems);
+    .get(isAuthUser,UserControllers.getShoppingItems)
+    .post(isAuthUser,UserControllers.addShoppingItems)
+    .delete(isAuthUser,UserControllers.deleteShoppingItems);
 
     router.route('/recipes')
     .get(isAuthUser,UserControllers.getRecipes);
