@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Header } from './components/Layouts/Header/Header';
 import { Start } from  './pages/Start/Start';
 import { Home } from './pages/Home/Home';
+import { Group } from './pages/Group/Group';
 import { MealPlan } from './pages/MealPlan/MealPlan';
 import { ShoppingList } from  './pages/ShoppingList/ShoppingList';
 import { Recipes } from  './pages/Recipes/Recipes';
@@ -16,6 +17,7 @@ export const App = () => {
             <Header/>        
             <Routes>
                 <Route path="/" element={<Start/>}/>
+                <Route path="/group" element={<Group/>}/>
                 <Route path="/home" element={<Home />}/>
                 <Route path="/mealPlan" element={<MealPlan />}/>
                 <Route path="/shoppingList" element={<ShoppingList />}/>

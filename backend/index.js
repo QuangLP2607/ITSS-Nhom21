@@ -15,22 +15,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Routes declaration
-import adminRoute from './routes/User/admin.js';
-import lectuerRoute from './routes/User/lecturer.js';
-import studentRoute from './routes/User/student.js';
-import classRoute from './routes/School/class.js';
-import facultyRoute from './routes/School/faculty.js';
-import programRoute from './routes/School/program.js';
-import subjectRoute from './routes/School/subject.js';
+import userRoute from './routes/user.js';
 
 // Use routes
-app.use('/admin', adminRoute);
-app.use('/lecturer', lectuerRoute);
-app.use('/student', studentRoute);
-app.use('/class', classRoute);
-app.use('/faculty', facultyRoute);
-app.use('/program', programRoute);
-app.use('/subject', subjectRoute);
+app.use('/users', userRoute);
+
 
 
 const server = http.createServer(app);

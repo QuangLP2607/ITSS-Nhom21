@@ -65,7 +65,7 @@ export const MealPlan = () => {
     //-------------------------------------------------------
     //-------------------Lấy API món ăn-------------------
     useEffect(() => {
-        fetchSearchRecipes();
+        //fetchSearchRecipes();
     }, []); 
     
     const fetchSearchRecipes = async () => {
@@ -131,7 +131,7 @@ export const MealPlan = () => {
                     <thead>
                         <tr style={{ textAlign: 'center', whiteSpace: '2px' }}>
                             <th>STT</th>
-                            <th>Tên thực phẩm</th>
+                            <th>Tên món ăn</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
                         </tr>

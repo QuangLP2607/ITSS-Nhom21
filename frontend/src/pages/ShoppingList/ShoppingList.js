@@ -8,124 +8,142 @@ import Pagination from '../../components/pagination/pagination';
 import UpdateIcon from '../../../assets/img/Update.png';
 import DeleteIcon from '../../../assets/img/Delete.png';
 import Arrow from '../../../assets/img/Arrow.png';
+import { v4 as uuidv4 } from 'uuid';
 
 export const ShoppingList = () => {
-    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
     const [items, setItems] = useState([]);
+    const [listItems, setListItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); 
     const [totalPages, setTotalPages] = useState(0);
-    const [quantity, setQuantity] = useState('');
-    const [status, setStatus] = useState('');
     const [newItem, setNewItem] = useState({
-        id: '',
-        itemName: '',
+        itemid: '',
+        itemname: '',
         quantity: '',
         note: '',
-        status: ''
+        status: '',
+        groupid: localStorage.getItem('groupId'),
+        dateadded: ''
     });
     const [isNewItemRowVisible, setIsNewItemRowVisible] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
-    
+    const groupId = localStorage.getItem('groupId'); 
     //-------------------------------------------------------
     //-------------------Lấy API item-------------------
     useEffect(() => {
-        fetchSearchItems();
+        
     }, []); 
     
     const fetchSearchItems = async () => {
         try {
-            let response = await axios.get(`/admin/student`);
-            const ItemData = response.data.students;
-            const pageCount = Math.ceil(ItemData.length / 10);
-            setItems(ItemData);
+            let response = await axios.get(`/users/shoppingitems?groupid=${groupId}&dateadded=${selectedDate}`);
+            const responseData = response.data;
+            const pageCount = responseData.totalPages || 1; 
+            setItems(responseData.shoppingItems);
             setTotalPages(pageCount);
         } catch (error) {
             console.error('Error fetching items:', error);
         }
     };
+   
     //-------------------------------------------------------
     //-------------------Thêm item-------------------
+    useEffect(() => {
+        const fetchListItems = async () => {
+            try {
+                const response = await axios.get('/users/itemslist');
+                setListItems(response.data.items);
+            } catch (error) {
+                console.error('Error fetching items:', error);
+            }
+        };
+
+        fetchListItems();
+    }, []);
+
     const handleAddButtonClick = () => {
         setIsNewItemRowVisible(true);
     };
     const handleQuantityChange = (e) => {
         const value = e.target.value;
         const filteredValue = value.replace(/\D/g, '');
-        setQuantity(filteredValue);
-    };
-
-    const handleStatusChange = (e) => {
-        setStatus(e.target.value);
+        setNewItem({ ...newItem, quantity: filteredValue });
     };
 
     const handleItemNameChange = (e) => {
         const value = e.target.value;
-        const filteredResults = items.filter(item => {
-            const searchString = `${item.id}`;
+        const filteredResults = listItems.filter(item => {
+            const searchString = `${item.itemname}`;
             return searchString.includes(value);
         }).slice(0, 5);
         setSearchResults(filteredResults);
-        setNewItem({ ...newItem, itemName: value });
+        setNewItem({ ...newItem, itemname: value });
     };
 
-    const handleSelectItemName = (selectedItemName) => {
-        setNewItem({ ...newItem, itemName: selectedItemName });
+    const handleSelectItemName = (selectedItemid, selectedItemName) => {
+        setNewItem({ ...newItem, itemid: selectedItemid, itemname: selectedItemName });
         setSearchResults([]);
     };
-
-    const handleConfirmButtonClick = () => {
-        if (newItem.itemName && quantity && newItem.note && status) {
+    
+    const handleConfirmButtonClick = async () => {
+        if (newItem.itemname && newItem.quantity && newItem.note && newItem.status) {
             setItems(prevItems => [...prevItems, { ...newItem, id: items.length + 1 }]);
-            setNewItem({
-                itemName: '',
-                quantity: '',
-                note: '',
-                status: ''
-            });
             setCurrentPage(totalPages);
             setIsNewItemRowVisible(false);
+            newItem.dateadded = selectedDate;
+            localStorage.getItem('groupId')
+            await addToDatabase(); // Đợi cho addToDatabase hoàn tất trước khi tiếp tục
         } else {
             setShowAlert(true);
         }
+        console.log('New Item:', newItem);
     };
+    
+    const addToDatabase = async () => {  
+        try {
+            const response = await axios.post('/users/shoppingitems/add', newItem);
+            console.log('Response:', response.data);
+        } catch (error) {
+            console.error('Error adding item:', error);
+        }
+    };
+    
     //-------------------------------------------------------
     //-------------------Xử lý chọn ngày-------------------
-    useEffect(() => {
-        const today = new Date();
-        const formattedDate = today.toISOString().slice(0, 10);
-        setSelectedDate(formattedDate);
-    }, []); 
-
     const handleDateChange = (event) => {
         const newDate = event.target.value;
         console.log("Selected Date:", newDate);
         setSelectedDate(newDate);
+        fetchSearchItems();
     };
 
-    const handlePreviousDay = () => {
+    const handlePreviousDay = async () => {
         const currentDate = new Date(selectedDate);
         currentDate.setDate(currentDate.getDate() - 1);
         setSelectedDate(currentDate.toISOString().slice(0, 10));
+        await fetchSearchItems();
     };
 
-    const handleNextDay = () => {
+    const handleNextDay = async () => {
         const currentDate = new Date(selectedDate);
         currentDate.setDate(currentDate.getDate() + 1);
-        setSelectedDate(currentDate.toISOString().substr(0, 10));
+        setSelectedDate(currentDate.toISOString().slice(0, 10));
+        await fetchSearchItems();
     };
     //-------------------------------------------------------
     //-------------------Delete Update item-------------------
     const handleDelete = (itemId) => {
+
         setItemToDelete(itemId);
         setShowDeleteConfirmation(true);
     };
 
     const handleDeleteConfirmed = (itemId) => {
-        const updatedItems = items.filter(item => item.id !== itemId);
-        setItems(updatedItems);
+        
+        
         setShowDeleteConfirmation(false);
     };
     
@@ -138,8 +156,6 @@ export const ShoppingList = () => {
         setCurrentPage(pageNumber);
     };
     
-    
-
     return (
         <div>
             <Sidebar/>
@@ -173,12 +189,12 @@ export const ShoppingList = () => {
                     </thead>
                     <tbody>
                         {items.slice((currentPage - 1) * 10, currentPage * 10).map((item, index) => (
-                            <tr key={item.id}>
-                                <td style={{ textAlign: 'center'}}>{item.id}</td>
-                                <td>{item.first_name} {item.last_name}</td>
-                                <td style={{ textAlign: 'center'}}>{item.program_id}</td>
-                                <td style={{ textAlign: 'center'}}>{item.cpa_total_score_product}</td>
-                                <td>{item.email}</td>
+                            <tr key={uuidv4()}>
+                                <td style={{ textAlign: 'center'}}>{index + 1}</td>
+                                <td>{item.itemname}</td>
+                                <td style={{ textAlign: 'center'}}>{item.quantity}</td>
+                                <td style={{ textAlign: 'center'}}>{item.note}</td>
+                                <td style={{ textAlign: 'center' }}>{item.status ? 'Đã mua' : 'Chưa mua'}</td>
                                 <td style={{ display: 'flex', justifyContent: 'center' }}>
                                     <div className={globalstyles['img-button-container']} >
                                         <img src={UpdateIcon} alt="Update" onClick={handleUpdate} className={globalstyles['img-button']} />
@@ -196,51 +212,56 @@ export const ShoppingList = () => {
                                 <td>
                                     <input 
                                         type="text" 
-                                        value={newItem.itemName} 
+                                        value={newItem.itemname} 
                                         onChange={handleItemNameChange}
                                         placeholder="Tên thực phẩm"
                                         style={{ border: 'none' }} 
                                     />
                                     {searchResults.length > 0 && (
-                                        <div className={styles['suggestion-container']}>
-                                        <div>Hãy chọn thực phẩm</div>
+                                        <Container className={styles['suggestion-container']}>
+                                        <div style ={{fontWeight: 'bold',  color: 'red'}}>Hãy chọn thực phẩm</div>
                                         <ul>
                                             {searchResults.map(result => (
-                                                <li key={result.id} onClick={() => handleSelectItemName(result.id)}>
-                                                    {result.id}
+                                                <li key={uuidv4()} onClick={() => handleSelectItemName(result.itemid, result.itemname)}>
+                                                    {result.itemname}
                                                 </li>
                                             ))}
                                         </ul>
-                                        </div>
+                                        </Container>
                                     )}                       
                                 </td>
                                 <td>
-                                    <input 
-                                        type="text"
-                                        value={quantity}
-                                        onChange={handleQuantityChange}
-                                        placeholder="Số lượng"
-                                        style={{ border: 'none',textAlign: 'center', width: '100%'}} 
-                                    />
+                                <input 
+                                    type="text"
+                                    value={newItem.quantity}
+                                    onChange={handleQuantityChange}
+                                    placeholder="Số lượng"
+                                    style={{ border: 'none', textAlign: 'center', width: '100%' }} 
+                                />
                                 </td>
                                 <td>
                                     <input
                                         type="text"
                                         value={newItem.note}
                                         onChange={(e) => setNewItem({ ...newItem, note: e.target.value })} 
-                                        
                                         placeholder="Nhập ghi chú"
-                                        style={{ border: 'none' }} // Bỏ viền cho input
+                                        style={{ border: 'none' }} 
                                     />
                                 </td>
                                 <td style={{ textAlign: 'center'}}> 
-                                    <select value={status} onChange={handleStatusChange} style={{ border: 'none' }}> {/* Bỏ viền cho select */}
-                                        <option value="">Trạng thái</option>
-                                        <option value="Đã mua">Đã mua</option>
-                                        <option value="Chưa mua">Chưa mua</option>
-                                    </select>
+                                <select value={newItem.status} onChange={(e) => setNewItem({ ...newItem, status: e.target.value })} 
+                                    style={{ border: 'none' }}> 
+                                    <option value="">Trạng thái</option>
+                                    <option value="true">Đã mua</option>
+                                    <option value="false">Chưa mua</option>
+                                </select>
                                 </td>
-                                <td><Button variant="dark" onClick={handleConfirmButtonClick}>Xác nhận</Button></td>
+                                <td style={{ textAlign: 'center'}}>
+                                    <Button variant="dark" onClick={handleConfirmButtonClick} 
+                                        style={{ border: 'none', fontSize: '12px' }}>
+                                        Xác nhận
+                                    </Button>
+                                </td>
                             </tr>
                         )}
                     </tbody>

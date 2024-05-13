@@ -12,7 +12,7 @@ const Sidebar = () => {
 
     const handleLogout = () => {
         try {
-            axios.get('/student/logout');
+            axios.get('/users/logout');
             console.log('Logged out successfully');
             localStorage.clear();
             navigate('/');
