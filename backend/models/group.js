@@ -7,12 +7,12 @@ export default class Group {
     
     static async getGroupID(req, res, next) {
         try {
-            res.status(200).json({
-                groupID: await User.getGroupID(req, res, next),
-                message: 'groupID fetched successfully',
-            });
+            const query = 'SELECT groupid, groupname FROM group_user JOIN groups using (groupid) WHERE userid = $1';
+            const userid = [req.query.userid];
+            const result = await client.query(query, userid);
+            return result.rows;
         } catch (error) {
-            res.status(500).json({ error: error });
+            throw error;
         }
     }
 }

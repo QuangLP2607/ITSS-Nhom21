@@ -1,12 +1,18 @@
 .suggestion-container {
     position: absolute;
- 
     margin-top:-190px;
     z-index: 999;
     background-color: #cbcbcb; 
     border: 3px solid #000000;
     border-radius: 5px;
-    height: 150px;
+    max-height: 150px;
     width: 195px;
+    overflow-Y: auto;
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên Internet Explorer */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+.suggestion-container:-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn trên Chrome và Safari */
 }
 

@@ -1,0 +1,14 @@
+.suggestion-container {
+    background-color: #ffffff; 
+    border: 1px solid #000000;
+    border-radius: 5px;
+    max-height: 150px;
+    margin-top: 10px;
+    overflow-Y: auto;
+    -ms-overflow-style: none; /* Ẩn thanh cuộn trên Internet Explorer */
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+.custom-modal {
+    height: 210px;
+}

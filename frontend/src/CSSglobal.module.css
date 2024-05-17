@@ -67,6 +67,8 @@ body {
 }
 
 .img-button-container {
+    display: inline-block;
+    vertical-align: 'middle';
     overflow: hidden;
     position: relative;
     width: 30px;

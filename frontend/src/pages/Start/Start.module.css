@@ -18,7 +18,8 @@
     width: 600px;
     height: 480px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* Màu trắng với độ mờ 50% */
+    background-color: rgba(255, 255, 255, 0.8); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hello {
@@ -26,8 +27,9 @@
     margin-top: 20px;
     margin-bottom: 50px;
     color: rgb(100, 100, 218); 
-    font-size: 24px; 
-    font-weight: bold; /* In đậm */
+    font-size: 30px; 
+    font-weight: bold; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
 }
 
 .tab {

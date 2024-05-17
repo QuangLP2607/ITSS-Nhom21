@@ -16,17 +16,28 @@ const router = express.Router();
 
     router.route('/shoppingitems')
     .get(isAuthUser,UserControllers.getShoppingItems)
-    .post(isAuthUser,UserControllers.addShoppingItems)
-    .delete(isAuthUser,UserControllers.deleteShoppingItems);
+    .post(isAuthUser,UserControllers.addShoppingItem)
+    .delete(isAuthUser,UserControllers.deleteShoppingItem)
+    .patch(isAuthUser,UserControllers.updateShoppingItem);
+
+    router.route('/mealplan')
+    .get(isAuthUser,UserControllers.getMealPlan)
+    .post(isAuthUser,UserControllers.addMealPlan)
+    .delete(isAuthUser,UserControllers.deleteRecipeMeal)  
+    .patch(isAuthUser,UserControllers.updateRecipeMeal);
 
     router.route('/recipes')
     .get(isAuthUser,UserControllers.getRecipes);
+    
 
     router.route('/favoriterecipes')
     .post(isAuthUser,UserControllers.getFavoriteRecipes);
-
-    router.route('/fridgeitems')
-
+    //thêm ctna vào dsut
+    router.route('/foodStorage')
+    .get(isAuthUser,UserControllers.getFoodStorage)
+    .delete(isAuthUser,UserControllers.deleteFoodStorage)  
+    .patch(isAuthUser,UserControllers.updateFoodStorage);
+  
     router.route('/cookingplans')
 
 export default router;
