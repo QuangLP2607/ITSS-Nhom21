@@ -13,7 +13,8 @@ export const Start = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async　() => {
+    const handleLogin = async　(event) => {
+        event.preventDefault();
         try {
             const config = { headers: { 'Content-Type': 'application/json'} };
             let response = await axios.post('/users/login', { email, password }, config);
@@ -55,7 +56,7 @@ export const Start = () => {
                             </Nav>
                             <Tab.Content>
                                 <Tab.Pane eventKey="login" style={{ flex: '1', paddingTop: '20px', paddingLeft: '50px', paddingRight: '50px'}}>
-                                    <Form >
+                                    <Form onSubmit={(event) => {handleLogin(event)}}>
                                         <Form.Group controlId="loginEmail">
                                             <Form.Label>Email:</Form.Label>
                                             <Form.Control type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/>
@@ -65,7 +66,7 @@ export const Start = () => {
                                             <Form.Control type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                         </Form.Group>            
                                         <div style={{ color: 'red' }}>{error && <p>{error}</p>}</div>
-                                        <Button type="button" className={styles.btn}  style={{marginTop: '40px'}} onClick={handleLogin}>Đăng nhập</Button>
+                                        <Button type="submit" className={styles.btn}  style={{marginTop: '40px'}}>Đăng nhập</Button>
                                     </Form>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="register" style={{ flex: '1', paddingTop: '20px', paddingLeft: '50px', paddingRight: '50px'}}>
