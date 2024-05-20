@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import styles from './Start.module.css'; 
-import { UserIdContext} from '../../components/context/UserIdAndGroupIdContext';
+import { UserIdContext } from '../../components/context/UserIdAndGroupIdContext';
 
 export const Start = () => {
     const [email, setEmail] = useState('');

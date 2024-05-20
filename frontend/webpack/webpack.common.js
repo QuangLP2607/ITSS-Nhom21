@@ -1,4 +1,3 @@
-// webpack.common.js
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -11,6 +10,7 @@ module.exports = {
     module: {
         rules: [
             {
+                // should use babel-loader for all ts js tsx and jsx files
                 test: /\.(ts|js)x?$/,
                 exclude: /node_modules/,
                 use: [
@@ -24,6 +24,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             },
             {
+                // v5 supports image loaders out of box
                 test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
                 type: 'asset/resource',
             },
@@ -46,9 +47,15 @@ module.exports = {
     ],
     devServer: {
         port: 3000,
-        historyApiFallback: true, // Serve index.html for all 404 responses
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/$/, to: '/index.html' },
+                { from: /^\/home/, to: '/index.html' },
+                { from: /./, to: '/index.html' },
+            ],
+        },
         proxy: {
-            '/api': {
+            '/': {
                 target: 'http://localhost:5000',
                 secure: false,
             },

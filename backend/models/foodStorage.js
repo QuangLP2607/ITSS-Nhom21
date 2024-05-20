@@ -14,19 +14,19 @@ export default class FoodStorage {
         }
     }
 
-    static async addFoodStorage(req, res, next) {
-        try {
-            const { quantity, dateadded, status, note, itemid, groupid } = req.body;
-            let query = `INSERT INTO public.fridgeitems(
-                         expirydate, quantity, itemid, groupid)
-                         VALUES ( $1, $2, $3, $4);`; 
-            const result = await client.query(query, [current_date, quantity, itemid, groupid]);
-            const newShoppingItemId = result.rows[0].shoppingitemid;
-            return newShoppingItemId; 
-        } catch (error) {
-            throw error;
-        } 
-    }
+    // static async addFoodStorage(req, res, next) {
+    //     try {
+    //         const { quantity, dateadded, status, note, itemid, groupid } = req.body;
+    //         let query = `INSERT INTO public.fridgeitems(
+    //                      expirydate, quantity, itemid, groupid)
+    //                      VALUES ( $1, $2, $3, $4);`; 
+    //         const result = await client.query(query, [current_date, quantity, itemid, groupid]);
+    //         const newShoppingItemId = result.rows[0].shoppingitemid;
+    //         return newShoppingItemId; 
+    //     } catch (error) {
+    //         throw error;
+    //     } 
+    // }
 
     static async deleteFoodStorage(req, res, next) {
         try {
