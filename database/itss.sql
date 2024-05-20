@@ -9,19 +9,20 @@ CREATE TABLE Users (
 
 -- Bảng Groups
 CREATE TABLE Groups (
-    GroupId INT PRIMARY KEY,
+    GroupId SERIAL PRIMARY KEY,
     GroupName VARCHAR(100)
 );
 
 -- Bảng Group_User
 CREATE TABLE Group_User (
-    
     UserId INT,
     GroupId INT,
+    IsOwner BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (UserId, GroupId),
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (GroupId) REFERENCES Groups(GroupId)
 );
+
 
 -- Bảng Items
 CREATE TABLE Items (
@@ -101,6 +102,67 @@ CREATE TABLE FavoriteRecipes (
     FOREIGN KEY (RecipeId) REFERENCES Recipes(RecipeId)
 );
 
+CREATE TABLE IF NOT EXISTS GroupInvitations (
+    invitationId SERIAL PRIMARY KEY,
+    senderid INT NOT NULL,
+    groupid INT NOT NULL,
+    receiverid INT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (senderid) REFERENCES Users(userid),
+    FOREIGN KEY (receiverid) REFERENCES Users(userid),
+    FOREIGN KEY (groupid) REFERENCES Groups(groupid)
+);
+
+CREATE TABLE IF NOT EXISTS ExpiryAlerts (
+    alertid SERIAL PRIMARY KEY,
+    fridgeitemid INT,
+    alertdate DATE,
+    groupid INT,
+    userid INT,
+    status VARCHAR(50),
+    FOREIGN KEY (fridgeitemid) REFERENCES fridgeitems(fridgeitemid),
+    FOREIGN KEY (userid) REFERENCES users(userid)
+);
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW.updatedAt = CURRENT_TIMESTAMP;
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_groupinvitations_updated_at
+    BEFORE UPDATE ON GroupInvitations
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+CREATE OR REPLACE FUNCTION add_expiry_alert()
+    RETURNS TRIGGER AS $$
+DECLARE
+    user_rec RECORD;
+BEGIN
+    FOR user_rec IN
+        SELECT userid
+        FROM group_user
+        WHERE groupid = NEW.groupid
+    LOOP
+        INSERT INTO ExpiryAlerts (fridgeitemid, alertdate, groupid, userid, status)
+        VALUES (NEW.fridgeitemid, NEW.expirydate - INTERVAL '3 days', NEW.groupid, user_rec.userid, 'pending');
+    END LOOP;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER add_expiry_alert_trigger
+    AFTER INSERT ON fridgeitems
+    FOR EACH ROW
+    EXECUTE FUNCTION add_expiry_alert();
+
+
 -- Bảng Users
 INSERT INTO Users (Username, Email, Password) VALUES
     ('john_doe', 'john.doe@example.com', '$2b$10$DGGMlJkszser9vX3J/X1Ou5C3jHLFNk5qx2iAnF7WR70R6VK7QQC6'),
@@ -123,16 +185,16 @@ INSERT INTO Groups (GroupId, GroupName) VALUES
     (6, 'FamilyNo6');
 
 -- Bảng Group_User
-INSERT INTO Group_User (UserId, GroupId) VALUES
-    (1, 1),
-    (2, 1),
-    (3, 2),
-    (4, 2),
-    (5, 3),
-    (6, 3),
-    (7, 4),
-    (8, 4),
-    (9, 4);
+INSERT INTO Group_User (UserId, GroupId, IsOwner) VALUES
+    (1, 1, true),
+    (2, 1, false),
+    (3, 2, true),
+    (4, 2, false),
+    (5, 3, true),
+    (6, 3, false),
+    (7, 4, true),
+    (8, 4, false),
+    (9, 4, false);
 
 -- Bảng Items
 INSERT INTO Items (ItemName, TimeExpired) VALUES

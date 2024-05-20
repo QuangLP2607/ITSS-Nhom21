@@ -16,6 +16,7 @@ body {
     margin-left: 20vw;
     width: 78vw;
     padding-bottom: 30px;
+    min-height: 83vh; 
 }
 
 .title {
@@ -51,13 +52,13 @@ body {
 .table-1000 {
     max-width: 1000px;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .table-1300 {
     max-width: 1300px;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .add-button {
@@ -84,6 +85,20 @@ body {
     z-index: 1;
     border-radius: 5px;
 }
+
+.icon-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center; 
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(35, 170, 243);
+    margin-left: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
 
 @media screen and (max-width: 1000px) {
     .main-background  {

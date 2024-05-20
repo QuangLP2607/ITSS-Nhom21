@@ -1,6 +1,4 @@
 import client from '../config/db.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import 'dotenv/config';
 
 export default class ShoppingItems {

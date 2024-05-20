@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react'; 
 import { Container, Row, Form, Button, Table, Modal } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
 import globalstyles from '../../CSSglobal.module.css';
 import styles from './MealPlan.module.css';
-import ViewIcon from '../../../assets/img/View.png';
-import DeleteIcon from '../../../assets/img/Delete.png';
 import Arrow from '../../../assets/img/Arrow.png';
 import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import useFetchListRecipes from '../../components/hooks/useFetchRecipesList';
+import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
 
 export const MealPlan = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -16,8 +17,8 @@ export const MealPlan = () => {
     const [recipes, setRecipes] = useState([]);
     const listRecipes = useFetchListRecipes();
     const [showAddModal, setShowAddModal] = useState(false);
-    
     const [searchResults, setSearchResults] = useState([]);
+    const { groupId } = useContext(GroupIdContext);
 
     //-------------------Xử lý chọn ngày-------------------
     useEffect(() => {
@@ -83,7 +84,7 @@ export const MealPlan = () => {
             await axios.post('/users/mealplan', {
                 date: selectedDate,
                 mealtype: meal,
-                groupid: localStorage.getItem('groupId'),
+                groupid: groupId,
                 recipeid: newRecipe.recipeid
             });
             setShowAddModal(false);
@@ -96,11 +97,11 @@ export const MealPlan = () => {
     //--------Lấy danh sách các món ăn trong bữa-------------
     useEffect(() => {
         fetchRecipes();
-    }, [listRecipes, selectedDate, meal, localStorage.getItem('groupId')]);
+    }, [listRecipes, selectedDate, meal]);
     
     const fetchRecipes = async () => {
         try {
-            let response = await axios.get(`/users/mealplan?dateadded=${selectedDate}&mealtype=${meal}&groupid=${localStorage.getItem('groupId')}`);
+            let response = await axios.get(`/users/mealplan?dateadded=${selectedDate}&mealtype=${meal}&groupid=${groupId}`);
             const RecipeData = response.data;
             const mealPlan = RecipeData.recipes;
 
@@ -217,12 +218,13 @@ export const MealPlan = () => {
                                         <option value="false">Chưa hoàn thành</option>
                                     </select>
                                 </td>
-                                <td style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <div className={globalstyles['img-button-container']}>
-                                        <img src={ViewIcon} alt="View" onClick={() => handleView(recipe)} className={globalstyles['img-button']}/>
+
+                                <td style={{ textAlign: 'center', width: 'auto', height: '100%' }}>
+                                    <div className={globalstyles['icon-container']} onClick={() => handleView(recipe)}>
+                                        <FontAwesomeIcon color="white" icon={faEye} />
                                     </div>
-                                    <div className={globalstyles['img-button-container']} style={{marginLeft:'10px'}}>
-                                        <img src={DeleteIcon} alt="Delete"  onClick={() => handleDelete(recipe)} className={globalstyles['img-button']}/>
+                                    <div className={globalstyles['icon-container']} onClick={() => handleDelete(recipe)}>
+                                        <FontAwesomeIcon color="white" icon={faTrash} />
                                     </div>
                                 </td>
                             </tr>

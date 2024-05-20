@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Row, Col, Form, Button, Tab, Nav } from 'react-bootstrap'; 
-import { useNavigate } from 'react-router-dom';; 
-import styles from './Start.module.css'; 
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
+import styles from './Start.module.css'; 
+import { UserIdContext} from '../../components/context/UserIdAndGroupIdContext';
 
 export const Start = () => {
     const [email, setEmail] = useState('');
@@ -10,18 +11,21 @@ export const Start = () => {
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
     const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
+    const {setUserId} = useContext(UserIdContext);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async　() => {
+    //-------------------------------------------------------
+    //---------------------Đăng nhập-------------------------
+    const handleLogin = async (event) => {
+        event.preventDefault();
         try {
             const config = { headers: { 'Content-Type': 'application/json'} };
             let response = await axios.post('/users/login', { email, password }, config);
             if (response && response.data) {
                 const { data } = response;
-                const userid = data.userid; // Lấy userId từ phản hồi
-            localStorage.setItem('userId', userid); 
-                localStorage.setItem('email', email);  
+                const userid = data.userid; 
+                setUserId(userid);  
                 navigate('/group');     
             } else {
                 setError('Unexpected response from server');
@@ -31,7 +35,10 @@ export const Start = () => {
         }
     };
 
-    const handleSignUp = () => {
+    //-------------------------------------------------------
+    //----------------------Đăng ký--------------------------
+    const handleSignUp = (event) => {
+        event.preventDefault();
         console.log("Email:", signupEmail); 
         console.log("Password:", signupPassword);
         console.log("confirm Password:", signupConfirmPassword);
@@ -55,7 +62,7 @@ export const Start = () => {
                             </Nav>
                             <Tab.Content>
                                 <Tab.Pane eventKey="login" style={{ flex: '1', paddingTop: '20px', paddingLeft: '50px', paddingRight: '50px'}}>
-                                    <Form >
+                                    <Form onSubmit={(event) => {handleLogin(event)}}>
                                         <Form.Group controlId="loginEmail">
                                             <Form.Label>Email:</Form.Label>
                                             <Form.Control type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/>
@@ -65,11 +72,11 @@ export const Start = () => {
                                             <Form.Control type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                                         </Form.Group>            
                                         <div style={{ color: 'red' }}>{error && <p>{error}</p>}</div>
-                                        <Button type="button" className={styles.btn}  style={{marginTop: '40px'}} onClick={handleLogin}>Đăng nhập</Button>
+                                        <Button type="submit" className={styles.btn}  style={{marginTop: '40px'}} >Đăng nhập</Button>
                                     </Form>
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="register" style={{ flex: '1', paddingTop: '20px', paddingLeft: '50px', paddingRight: '50px'}}>
-                                    <Form >
+                                    <Form onSubmit={(event) => {handleSignUp(event)}}>
                                         <Form.Group controlId="signUpEmail">
                                             <Form.Label>Email:</Form.Label>
                                             <Form.Control type="email" placeholder="Enter your email" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)}/>
@@ -83,7 +90,7 @@ export const Start = () => {
                                             <Form.Control type="confirmPassword" placeholder="Enter your password" value={signupConfirmPassword} onChange={(e) => setSignupConfirmPassword(e.target.value)}/>
                                         </Form.Group>         
                                         <div style={{ color: 'red' }}>{error && <p>{error}</p>}</div>
-                                        <Button type="button" className={styles.btn} style={{marginTop: '10px'}} onClick={handleSignUp}>Đăng ký</Button>
+                                        <Button type="submit" className={styles.btn} style={{marginTop: '10px'}} >Đăng ký</Button>
                                     </Form>
                                 </Tab.Pane>
                             </Tab.Content>

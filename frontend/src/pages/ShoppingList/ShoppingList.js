@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react'; 
 import { Container, Button, Table, Form, Modal } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
 import globalstyles from '../../CSSglobal.module.css';
 import styles from './ShoppingList.module.css';
 import Pagination from '../../components/pagination/pagination';
-import UpdateIcon from '../../../assets/img/Update.png';
-import DeleteIcon from '../../../assets/img/Delete.png';
-import SaveIcon from '../../../assets/img/Save.png';
-import CancelIcon from '../../../assets/img/Cancel.png';
 import Arrow from '../../../assets/img/Arrow.png';
 import useFetchListItems from '../../components/hooks/useFetchItemList';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
 
 export const ShoppingList = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -20,10 +19,10 @@ export const ShoppingList = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
-    const groupId = localStorage.getItem('groupId'); 
+    const { groupId } = useContext(GroupIdContext);
 
-    //-------------------------------------------------------
-    //-------------------Lấy API item-------------------
+    //-------------------------------------------------------------
+    //-------------------Lấy danh sách item------------------------
     const fetchSearchItems = async () => {
         try {
             let response = await axios.get(`/users/shoppingitems?groupid=${groupId}&dateadded=${selectedDate}`);
@@ -42,7 +41,7 @@ export const ShoppingList = () => {
     }, [selectedDate]);
 
     //-------------------------------------------------------
-    //-------------------Add item-------------------
+    //-------------------Add item----------------------------
     const [isNewItemRowVisible, setIsNewItemRowVisible] = useState(false);
     const [newItem, setNewItem] = useState({
         shoppingitemid:'',
@@ -84,7 +83,6 @@ export const ShoppingList = () => {
             await addToDatabase(); 
             fetchSearchItems();
             setIsNewItemRowVisible(false);
-            // Đặt lại các trường dữ liệu của newItem về rỗng
             setNewItem({shoppingitemid: '',itemid: '',itemname: '',quantity: '',note: '',status: ''});
         } else {
             setShowAlert(true);
@@ -96,7 +94,7 @@ export const ShoppingList = () => {
             const response = await axios.post('/users/shoppingitems', {
                 ...newItem,
                 dateadded: selectedDate,
-                groupid: localStorage.getItem('groupId')
+                groupid: groupId
             });
             return response.data.newShoppingItemId;
         } catch (error) {
@@ -123,7 +121,7 @@ export const ShoppingList = () => {
     };
     
     //-------------------------------------------------------
-    //-------------------Update item-------------------
+    //-------------------Update item-------------------------
     const [editingItem, setEditingItem] = useState({
         shoppingitemid: '',
         quantity: '',
@@ -157,10 +155,7 @@ export const ShoppingList = () => {
         }
         axios.patch(`/users/shoppingitems?shoppingitemid=${editingItem.shoppingitemid}`, editingItem)
             .then(() => {
-                setItems(prev => prev.map(item =>
-                    item.shoppingitemid === editingItem.shoppingitemid ? { ...item, ...editingItem } : item
-                ));
-                
+                fetchSearchItems();   
                 handleCancelEdit();
             })
             .catch(error => {
@@ -293,20 +288,20 @@ export const ShoppingList = () => {
                                 <td style={{ textAlign: 'center', width: 'auto', height: '100%' }}>
                                     {editingItem.shoppingitemid === item.shoppingitemid ? (
                                         <React.Fragment>
-                                            <div className={globalstyles['img-button-container']} >
-                                                <img src={SaveIcon} alt="Save" onClick={handleUpdate} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleUpdate}>
+                                                <FontAwesomeIcon icon={faCheck} color="green" size="xl" />
                                             </div>
-                                            <div className={globalstyles['img-button-container']} style={{marginLeft: '10px'}}>
-                                                <img src={CancelIcon} alt="Cancel" onClick={handleCancelEdit} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleCancelEdit}>
+                                                <FontAwesomeIcon color="red" icon={faTimes} size="xl"/>
                                             </div>
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
-                                            <div className={globalstyles['img-button-container']} >
-                                                <img src={UpdateIcon} alt="Update" onClick={() => handleUpdateClick(item)} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} onClick={() => handleUpdateClick(item)}>
+                                                <FontAwesomeIcon color="white" icon={faEdit} />
                                             </div>
-                                            <div className={globalstyles['img-button-container']} style={{ marginLeft: '10px' }}>
-                                                <img src={DeleteIcon} alt="Delete" onClick={() => handleDelete(item)} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} onClick={() => handleDelete(item)}>
+                                                <FontAwesomeIcon color="white" icon={faTrash} />
                                             </div>
                                         </React.Fragment>
                                     )}

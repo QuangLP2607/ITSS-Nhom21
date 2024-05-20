@@ -1,6 +1,4 @@
 import client from '../config/db.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import 'dotenv/config';
 
 export default class Recipes {
@@ -25,20 +23,5 @@ export default class Recipes {
             throw error;
         }
     }
-    
 
-    static async getFavoriteRecipes(req, res, next) {
-        try {
-            const userid = req.body.userid;
-            let query = ` SELECT * 
-            FROM favoriterecipes
-            JOIN recipes USING (recipeid)
-            WHERE userid = $1;`;
-            
-            const result = await client.query(query, [userid]);
-            return result.rows;   
-        } catch (error) {
-            throw error;
-        }
-    }
 }

@@ -67,6 +67,7 @@ const Sidebar = () => {
                     <li><NavLink to="/mealPlan">Kế hoạch nấu ăn</NavLink></li>
                     <li><NavLink to="/foodStorage">Tủ lạnh</NavLink></li>
                     <li><NavLink to="/recipes">Công thức nấu ăn</NavLink></li>
+                    <li><NavLink to="/group">Nhóm</NavLink></li>
                     <li><Button variant="primary" onClick={handleLogout} className={styles['logout-button']}>Đăng xuất</Button></li>
                 </ul>
             </div>

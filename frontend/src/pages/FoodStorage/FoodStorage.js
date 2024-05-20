@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react'; 
 import { Container, Table, Modal, Button } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
 import globalstyles from '../../CSSglobal.module.css';
-import DeleteIcon from '../../../assets/img/Delete.png';
-import UpdateIcon from '../../../assets/img/Update.png';
-import SaveIcon from '../../../assets/img/Save.png';
-import CancelIcon from '../../../assets/img/Cancel.png';
+import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export const FoodStorage = () => {
     const [foodStorage, setFoodStorage] = useState([]);
+    const { groupId } = useContext(GroupIdContext);
 
     useEffect(() => {
         fetchFoodStorage();
@@ -17,8 +17,7 @@ export const FoodStorage = () => {
 
     const fetchFoodStorage = async () => {
         try {
-            const groupId = localStorage.getItem('groupId');
-            let response = await axios.get(`/users/foodStorage?groupid=${groupId}`);
+            let response = await axios.get(`/users/foodStorage?groupid=${ groupId }`);
             setFoodStorage(response.data.FoodStorage);
         } catch (error) {
             console.error('Error fetching food storage:', error); 
@@ -97,8 +96,7 @@ export const FoodStorage = () => {
             expirydate: ''
         });
     };
-
-
+    
     return (
         <div>
             <Sidebar/>
@@ -135,7 +133,7 @@ export const FoodStorage = () => {
                                     {editingFood.fridgeitemid === food.fridgeitemid ? (
                                         <input 
                                             type="date" 
-                                            value={new Date(editingFood.expirydate).toISOString().substr(0, 10)}
+                                            value={new Date(editingFood.expirydate).toISOString().slice(0, 10)}
                                             onChange={(e) => handleDateChange(e.target.value)}
                                         />
                                     ) : (
@@ -145,20 +143,20 @@ export const FoodStorage = () => {
                                 <td style={{ textAlign: 'center', width: 'auto', height: '100%' }}>
                                     {editingFood.fridgeitemid === food.fridgeitemid ? (
                                         <React.Fragment>
-                                            <div className={globalstyles['img-button-container']} >
-                                                <img src={SaveIcon} alt="Save" onClick={handleUpdate} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleUpdate}>
+                                                <FontAwesomeIcon icon={faCheck} color="green" size="xl" />
                                             </div>
-                                            <div className={globalstyles['img-button-container']} style={{ marginLeft: '10px' }}>
-                                                <img src={CancelIcon} alt="Cancel" onClick={handleCancelEdit} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleCancelEdit}>
+                                                <FontAwesomeIcon color="red" icon={faTimes} size="xl"/>
                                             </div>
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
-                                            <div className={globalstyles['img-button-container']} >
-                                                <img src={UpdateIcon} alt="Update" onClick={() => handleUpdateClick(food)} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} onClick={() => handleUpdateClick(food)}>
+                                                <FontAwesomeIcon color="white" icon={faEdit} />
                                             </div>
-                                            <div className={globalstyles['img-button-container']} style={{ marginLeft: '10px' }}>
-                                                <img src={DeleteIcon} alt="Delete" onClick={() => handleDelete(food)} style={{ width: '100%', height: '100%' }} />
+                                            <div className={globalstyles['icon-container']} onClick={() => handleDelete(food)}>
+                                                <FontAwesomeIcon color="white" icon={faTrash} />
                                             </div>
                                         </React.Fragment>
                                     )}
