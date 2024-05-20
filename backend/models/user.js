@@ -70,4 +70,27 @@ export default class User {
             throw error;
         }
     }
+
+    static async createUser({ username, email, password }) {
+        try {
+            // Check if the email already exists
+            let query = 'SELECT * FROM users WHERE email = $1';
+            const result = await client.query(query, [email]);
+            if (result.rows.length > 0) {
+                throw new Error('Email already exists');
+            }
+
+            // Hash the password before saving it
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Insert new user into the database
+            query = 'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *';
+            const values = [username, email, hashedPassword];
+            const newUser = await client.query(query, values);
+
+            return newUser.rows[0];
+        } catch (error) {
+            throw error;
+        }
+    }
 }

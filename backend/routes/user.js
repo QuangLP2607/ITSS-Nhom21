@@ -7,6 +7,8 @@ const router = express.Router();
     .post(UserControllers.loginUser);
     router.route('/logout')
     .get(UserControllers.logoutUser);
+    router.route('/signup')
+    .post(UserControllers.createUser);
 
     router.route('/group')
     .get(isAuthUser,UserControllers.getGroupID);

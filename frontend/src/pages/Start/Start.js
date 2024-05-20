@@ -10,6 +10,7 @@ export const Start = () => {
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
     const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
+    const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -31,11 +32,23 @@ export const Start = () => {
         }
     };
 
-    const handleSignUp = () => {
-        console.log("Email:", signupEmail); 
-        console.log("Password:", signupPassword);
-        console.log("confirm Password:", signupConfirmPassword);
-        navigate('/home');
+    const handleSignUp = async () => {
+        if (signupPassword !== signupConfirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+        try {
+            const config = { headers: { 'Content-Type': 'application/json' } };
+            let response = await axios.post('/users/signup', { username, email: signupEmail, password: signupPassword }, config);
+            if (response && response.data) {
+                setError('');
+                navigate('/group');
+            } else {
+                setError('Unexpected response from server');
+            }
+        } catch (error) {
+            setError(error.response ? error.response.data.message : 'An error occurred');
+        }
     };
 
     return (
@@ -80,8 +93,12 @@ export const Start = () => {
                                         </Form.Group>    
                                         <Form.Group controlId="signUpConfirmPassword">
                                             <Form.Label style={{marginTop: '10px'}}>Nhập lại mật khẩu:</Form.Label>
-                                            <Form.Control type="confirmPassword" placeholder="Enter your password" value={signupConfirmPassword} onChange={(e) => setSignupConfirmPassword(e.target.value)}/>
-                                        </Form.Group>         
+                                            <Form.Control type="password" placeholder="Enter your password" value={signupConfirmPassword} onChange={(e) => setSignupConfirmPassword(e.target.value)}/>
+                                        </Form.Group>   
+                                        <Form.Group controlId="signUpUsername">
+                                            <Form.Label style={{marginTop: '10px'}}>Tên người dùng:</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter your username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                                        </Form.Group>        
                                         <div style={{ color: 'red' }}>{error && <p>{error}</p>}</div>
                                         <Button type="button" className={styles.btn} style={{marginTop: '10px'}} onClick={handleSignUp}>Đăng ký</Button>
                                     </Form>

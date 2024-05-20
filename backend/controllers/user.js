@@ -6,6 +6,7 @@ import ShoppingItems from '../models/shoppingItems.js';
 import Recipes from '../models/recipes.js';
 import FoodStorage from '../models/foodStorage.js';
 import client from '../config/db.js';
+import bcrypt from 'bcrypt';
 
 export default class UserControllers {
 
@@ -38,6 +39,20 @@ export default class UserControllers {
             res.status(200).json({ message: 'Logged out successfully' });
             // Return postgres client to pool
             await client.query('SET ROLE postgres;');
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async createUser(req, res, next) {
+        try {
+            const { username, email, password} = req.body;
+            const newUser = await User.createUser({ username, email, password });
+            res.status(200).json({
+                success: true,
+                message: 'User created successfully',
+                user: newUser
+            });
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
