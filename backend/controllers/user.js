@@ -48,6 +48,15 @@ export default class UserControllers {
         }
     }
 
+    static async signUpUser(req, res, next) {
+        try {
+            await User.signUpUser(req, res, next );
+            await UserControllers.loginUser(req, res, next); 
+        } catch (error) {
+            next(error); 
+        }
+    }
+
     //==================List User================================
     static async getListUser(req, res, next) {
         try {
@@ -177,6 +186,7 @@ export default class UserControllers {
     static async addShoppingItem(req, res, next) {
         try {
             const newShoppingItemId = await ShoppingItems.addShoppingItem(req, res, next);
+            await FoodStorage.addFoodStorage(req, res, next)
             res.status(200).json({  
                 message: 'shoppingItem add successfully',
                 newShoppingItemId: newShoppingItemId 

@@ -38,9 +38,10 @@ export const Header = () => {
     //---------------------------------------------------------------
     //----------------Thông báo--------------------------------------
     const [arlerts, setArlerts] = useState([]);
+    const [arlert1s, setArlert1s] = useState([]);
 
     useEffect(() => {
-        const fetchListFavoriteRecipes = async () => {
+        const fetchExpiryAlert = async () => {
             try {
                 const response = await axios.get(`/users/expiryAlert?userid=${userId}&groupid=${groupId}`);
                 if (response.data && response.data.Arlerts) {
@@ -51,9 +52,27 @@ export const Header = () => {
             }
         };
         if (shouldShowGreeting & groupId) {
-            fetchListFavoriteRecipes();
+            fetchExpiryAlert();
         }
     }, [groupId,shouldShowGreeting]);
+
+    useEffect(() => {
+        const fetchGroupInvitations = async () => {
+            try {
+                const response = await axios.get(`/users/groupinvitation?userid=${userId}`);
+                if (response.data && response.data.groupInvitation) {
+                    setArlert1s(response.data.groupInvitation);
+                }
+            } catch (error) {
+                console.error('Error fetching group invitation:', error);
+            }
+        };
+        if (userId) {
+            fetchGroupInvitations();
+            console.log("Arlert1s:", arlert1s);
+
+        }
+    }, [userId]);
 
     const calculateDaysRemaining = (alertDate) => {
         const currentDate = new Date();
@@ -96,6 +115,12 @@ export const Header = () => {
                                 <td>hết hạn sau {calculateDaysRemaining(alert.alertdate)} ngày</td>
                             </tr>
                         ))}
+                        {/* {arlert1s.map((alert, index) => (
+                            <tr key={index}>
+                                <td>{alert.invitationid}</td>
+                           
+                            </tr>
+                        ))} */}
                     </tbody>
                 </table>
             </Popover.Body>

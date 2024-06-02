@@ -7,7 +7,9 @@ const router = express.Router()
         .post(UserControllers.loginUser)
     router.route('/logout')
         .get(UserControllers.logoutUser)
-
+    router.route('/signup')
+        .post(UserControllers.signUpUser);
+    
     router.route('/listUser')
         .get(isAuthUser,UserControllers.getListUser)
 

@@ -14,19 +14,31 @@ export default class FoodStorage {
         }
     }
 
-    // static async addFoodStorage(req, res, next) {
-    //     try {
-    //         const { quantity, dateadded, status, note, itemid, groupid } = req.body;
-    //         let query = `INSERT INTO public.fridgeitems(
-    //                      expirydate, quantity, itemid, groupid)
-    //                      VALUES ( $1, $2, $3, $4);`; 
-    //         const result = await client.query(query, [current_date, quantity, itemid, groupid]);
-    //         const newShoppingItemId = result.rows[0].shoppingitemid;
-    //         return newShoppingItemId; 
-    //     } catch (error) {
-    //         throw error;
-    //     } 
-    // }
+    static async addFoodStorage(req, res, next) {
+        try {
+            const { quantity, itemid, groupid } = req.body;
+
+        // Truy vấn để lấy giá trị timeeexpired
+        const selectQuery = 'SELECT timeexpired FROM items WHERE itemid = $1';
+        const selectResult = await client.query(selectQuery, [itemid]);
+
+        const timeexpired = selectResult.rows[0].timeexpired;
+
+        // Tính toán expirydate
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + parseInt(timeexpired));
+        const expiryDateString = expiryDate.toISOString().split('T')[0];
+
+        // Thực hiện truy vấn INSERT
+        const insertQuery = `
+            INSERT INTO public.fridgeitems (expirydate, quantity, itemid, groupid)
+            VALUES ($1, $2, $3, $4)`;
+        await client.query(insertQuery, [expiryDateString, quantity, itemid, groupid]);
+
+        } catch (error) {
+            throw error;
+        } 
+    }
 
     static async deleteFoodStorage(req, res, next) {
         try {
