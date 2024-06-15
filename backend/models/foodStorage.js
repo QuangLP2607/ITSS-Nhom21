@@ -42,8 +42,8 @@ export default class FoodStorage {
 
     static async deleteFoodStorage(req, res, next) {
         try {
-            const fridgeitemid = req.query.fridgeitemid;
-            const query = `DELETE FROM public.fridgeitems WHERE fridgeitemid = ${fridgeitemid}`;
+            const { itemid, fridgeitemid } = req.query;
+            const query = `DELETE FROM public.fridgeitems WHERE fridgeitemid = ${fridgeitemid} AND itemid = ${itemid}`;
             await client.query(query);
         } catch (error) {
             throw error;

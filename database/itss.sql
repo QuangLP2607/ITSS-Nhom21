@@ -162,6 +162,21 @@ CREATE TRIGGER add_expiry_alert_trigger
     FOR EACH ROW
     EXECUTE FUNCTION add_expiry_alert();
 
+-- thêm người dùng vào nhóm
+CREATE OR REPLACE FUNCTION add_user_to_group()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.group_user(groupid, userid)
+    SELECT NEW.groupid, NEW.receiverid
+    WHERE NEW.status = 'accept';
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE or replace TRIGGER trg_add_user_to_group
+AFTER UPDATE OF status ON public.groupinvitations
+FOR EACH ROW
+EXECUTE FUNCTION add_user_to_group();
 
 -- Bảng Users
 INSERT INTO Users (Username, Email, Password) VALUES

@@ -215,9 +215,9 @@ export const ShoppingList = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách mua sắm</div>
-                <Button className={globalstyles['add-button']} variant="dark" onClick={handleAddButtonClick}>Thêm mới</Button>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '30px', marginLeft: '50px' }}>
-                    <img src={Arrow} alt="Previous Day" style={{ cursor: 'pointer', marginRight: '10px', width: '25px', height: '25px', transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
+                <Button className={globalstyles['add-button']} onClick={handleAddButtonClick}>Thêm mới</Button>
+                <div className={globalstyles.flexRow}>
+                    <img src={Arrow} alt="Previous Day"  className={styles.arrowIcon} style={{ transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
                     <div style={{ marginLeft: '10px', marginRight: '10px'}}>
                         <Form.Control 
                             style={{ width: '200px', cursor: 'pointer' }}
@@ -228,7 +228,7 @@ export const ShoppingList = () => {
                             onChange={handleDateChange}
                         />
                     </div>
-                    <img src={Arrow} alt="Next Day" style={{ cursor: 'pointer', width: '25px', height: '25px', marginLeft: '10px' }} onClick={handleNextDay} />
+                    <img src={Arrow} alt="Next Day" className={styles.arrowIcon} onClick={handleNextDay} />
                 </div>
                 {quantityError && <p style={{ color: 'red' }}>Số lượng không thể bằng 0. Vui lòng nhập một giá trị hợp lệ.</p>}
                 <Table className={globalstyles['table-1300']}>

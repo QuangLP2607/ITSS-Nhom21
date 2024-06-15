@@ -1,17 +1,19 @@
 .header-background {
     position: relative;
     height: 100px; 
-    background: linear-gradient(135deg,rgb(58, 122, 225)30%,rgb(157, 187, 246) 100%);
-    z-index: 999;
+    background:#8aaae5;
+    z-index: 3;
+    box-shadow: 0 4px 8px rgba(99, 99, 99, 0.2);
 }
 
 .header-title {
     margin-left: 5vw; 
     height: 80px;
-    font-family: "Times New Roman", Times, serif;
-    color: white;
+    color: rgb(255, 255, 255);
     font-size: 40px;
+    font-weight: bolder;
     cursor: pointer;
+    text-shadow: 2px 2px 2px #3c3b3b; 
 }
 
 .bell-icon {
@@ -54,4 +56,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.invitation-bubble {
+    position: fixed;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    background-color: #ff0000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    top: 180px;
+    right: 60px;
+    width: 30px;
+    height: 30px;
+    font-weight: bold;
+}
+
+.invitation-bubble:hover {
+    background-color: #ff8585;
+}
+
+.invitation-icon {
+    margin-right: 5px;
+    color: rgb(255, 230, 0);
 }

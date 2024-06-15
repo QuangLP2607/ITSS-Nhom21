@@ -36,8 +36,8 @@ export const FoodStorage = () => {
 
     const handleDeleteConfirmed = async (food) => {
         try {
-            await axios.delete(`/users/foodStorage?fridgeitemid=${food.fridgeitemid}`);
-            setFoodStorage(prevFoods => prevFoods.filter(food => food.fridgeitemid !== recipeToDelete.fridgeitemid));
+            await axios.delete(`/users/foodStorage?fridgeitemid=${food.fridgeitemid}&itemid=${food.itemid}`);
+            setFoodStorage(prevFoods => prevFoods.filter(item => item.fridgeitemid !== food.fridgeitemid));
             setShowDeleteConfirmation(false);
         } catch (error) {
             console.error('Error deleting food:', error);
@@ -102,7 +102,7 @@ export const FoodStorage = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Tủ lạnh</div>
-                <Table className={globalstyles['table-1000']} style={{ marginTop: '80px' }}>
+                <Table className={globalstyles['table-1000']}>
                     <thead>
                         <tr style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
                             <th>STT</th>

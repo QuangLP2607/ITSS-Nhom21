@@ -1,22 +1,16 @@
 html, body {
-    margin: 0;
-    padding: 0;
     background-color: #d7d7d7;
-}
-
-body {
-    background-color: linear-gradient(135deg,rgb(0, 0, 0) 0%,rgb(176, 176, 176) 100%);
 }
 
 .main-background {
     position: relative;
     background-color: #ffffff;
     border-radius: 10px;
-    margin-top: 2vh; 
-    margin-left: 20vw;
-    width: 78vw;
-    padding-bottom: 30px;
-    min-height: 83vh; 
+    margin: 15px; 
+    margin-left: 285px;
+    width: calc(100vw - 300px);
+    min-height: calc(100vh - 130px);
+    padding: 20px 30px 30px 30px;
 }
 
 .title {
@@ -28,15 +22,17 @@ body {
 }
 
 .left-title {
-    position: relative;
-    top: 10px;
-    margin-left: 10px;
+    margin: 20px;
     font-size: 25px;
 }
 
-.search-input{
-    margin-top: 20px;
-    margin-left: 35px;
+.input {
+    background-color:#ffffff;
+    padding: 0 20px 0 15px;
+    width: 180px;
+    height: 33px;
+    border-radius: 5px;
+    border: 0.1px solid rgb(208, 208, 208);
 }
 
 .button-search{
@@ -63,27 +59,8 @@ body {
 
 .add-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.img-button-container {
-    display: inline-block;
-    vertical-align: 'middle';
-    overflow: hidden;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.img-button {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
-    border-radius: 5px;
+    top: 20px;
+    right: 20px;
 }
 
 .icon-container {
@@ -96,13 +73,19 @@ body {
     cursor: pointer;
     background-color: rgb(35, 170, 243);
     margin-left: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.flexRow{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 50px; 
 }
 
 
 @media screen and (max-width: 1000px) {
     .main-background  {
-        margin-left: 4vw;
-        width: 92vw;
+        margin-left: 15px;
+        width: calc(100vw - 30px);
     }
 }

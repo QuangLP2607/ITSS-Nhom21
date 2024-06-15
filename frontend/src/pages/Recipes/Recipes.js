@@ -160,25 +160,29 @@ export const Recipes = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách công thức nấu ăn</div>
-                <Button className={globalstyles['add-button']} variant="dark">Thêm mới</Button>
-                <div className={globalstyles['search-input']}>
-                    <input type="text" value={inputRecipe} onChange={inputRecipeName} placeholder="Nhập tên món ăn" style={{ marginRight: '10px' }} />
-                    <input type="text" value={inputTag} onChange={inputTagName} placeholder="Nhập nguyên liệu" style={{ marginRight: '10px' }} />
+                <Button className={globalstyles['add-button']}>Thêm mới</Button>
+
+                <div style={{ display: 'flex', gap: '20px', marginLeft: '50px' }}>
+                    <input type="text" className={globalstyles.input} value={inputRecipe} onChange={inputRecipeName} placeholder="Nhập tên món ăn" />
+                    <div>
+                        <input type="text" className={globalstyles.input} value={inputTag} onChange={inputTagName} placeholder="Nhập nguyên liệu"/>
+                        {inputTag && (
+                            <div className={styles['tag-suggestions']}>
+                                {suggestedTags.filter(item => item.itemname.toLowerCase().includes(inputTag.toLowerCase())).map(filteredItem => (
+                                    <div key={filteredItem.itemid} onClick={() => addTag(filteredItem.itemname)} className={styles['tag-suggestion']}>
+                                        {filteredItem.itemname}
+                                    </div>
+                                ))}
+                            </div>
+                        )}   
+                    </div>
                     <div className={styles['favorite-recipe']} onClick={() => SelectFavoriteRecipe()} 
                         style ={{color:favoriteRecipe ? 'red': 'white'}}>
                         Công thức yêu thích 
                         <FontAwesomeIcon color={ favoriteRecipe ? "red" : "white"} icon={faHeart} style={{marginLeft: '10px'}}/>
                     </div>
-                    {inputTag && (
-                        <div className={styles['tag-suggestions']}>
-                            {suggestedTags.filter(item => item.itemname.toLowerCase().includes(inputTag.toLowerCase())).map(filteredItem => (
-                                <div key={filteredItem.itemid} onClick={() => addTag(filteredItem.itemname)} className={styles['tag-suggestion']}>
-                                    {filteredItem.itemname}
-                                </div>
-                            ))}
-                        </div>
-                    )}   
                 </div>
+
                 <div className={styles['selected-tags']}>
                     {selectedTags.map(tag => (
                         <span key={tag} className={styles['tag']}>

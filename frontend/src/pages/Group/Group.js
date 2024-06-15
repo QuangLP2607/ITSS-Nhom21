@@ -7,13 +7,18 @@ import { faTimes, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import styles from './Group.module.css';
 import useFetchListUsers from '../../components/hooks/useFetchUsersList';
 import { UserIdContext, GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Group = () => {
     const listUsers = useFetchListUsers();
     const { setGroupId } = useContext(GroupIdContext);
     const { userId } = useContext(UserIdContext);
     const navigate = useNavigate();
+    const backgroundColors = ['#ffdddd', '#ddffdd', '#ddddff', '#fffddd', '#ddf0ff'];
+    const borderColors = ['#fc3030', '#30fc30', '#3030fc', '#fcfc30', '#30fcfc'];
 
+    //--------------------------------------------------------
     //-------------------Lấy danh sách nhóm-------------------
     const [groups, setGroups] = useState([]);
 
@@ -53,6 +58,7 @@ export const Group = () => {
                 userid: userId,
                 groupname: groupName
             });
+            toast.success('Tạo nhóm thành công !');
             return response.data.newGroupId;
         } catch (error) {
             console.error('Error creating group:', error);
@@ -60,15 +66,21 @@ export const Group = () => {
         }
     };
     
+    //------------------------------------------------------------
     //--------------------Tìm kiếm user---------------------------
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
+    useEffect(() => {
+        handleSearch();
+    }, [searchTerm]);
+
     const handleSearch = () => {
         if (searchTerm) {
             const filteredUsers = listUsers.filter(user =>
-                user.username.toLowerCase() === searchTerm.toLowerCase() ||
-                user.email.toLowerCase() === searchTerm.toLowerCase()
+                (user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                user.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                !selectedMembers.some(member => member.userid === user.userid)
             );
             setSuggestions(filteredUsers);
         } else {
@@ -80,14 +92,15 @@ export const Group = () => {
         if (!selectedMembers.some(m => m.userid === member.userid)) {
             setSelectedMembers([...selectedMembers, member]);
             setSearchTerm('');
-            setSuggestions([]);
         }
     };
 
     const handleRemoveMember = (memberToRemove) => {
-        const updatedMembers = selectedMembers.filter(member => member !== memberToRemove);
+        const updatedMembers = selectedMembers.filter(member => member.userid !== memberToRemove.userid);
         setSelectedMembers(updatedMembers);
     };
+
+    //----------------------------------------------------------
     //----------------Gửi lời mời cho user----------------------
     const sendGroupInvitations = async (userId, groupId, selectedMembers) => {
         try {
@@ -118,8 +131,10 @@ export const Group = () => {
             setShowJoinModal(false);
             setGroupCode('');
             fetchGroup();
+            toast.success('Tham gia nhóm thành công !');
         } catch (error) {
             console.error('Error joining group:', error);
+            toast.error('Mã nhóm không tồn tại !');
         }
     };
 
@@ -141,19 +156,7 @@ export const Group = () => {
         setSelectedGroup(group);
         setShowLeaveOption(group); 
     };
-    
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (leaveOptionRef.current && !leaveOptionRef.current.contains(event.target)) {
-                setShowLeaveOption(null);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-    
+
     const handleLeaveGroup = async () => {
         try {
             await axios.delete(`/users/groupMember?groupid=${selectedGroup.groupid}&userid=${userId}`);
@@ -170,7 +173,7 @@ export const Group = () => {
             <Container fluid className={styles['main-background']}>
                 <div style={{ fontSize: '25px', fontWeight: 'bold' }}>Nhóm của bạn</div>
                 <Dropdown className={styles['add-button']}>
-                    <Dropdown.Toggle variant="dark" style={{ border: 'none', fontSize: '12px' }} id="dropdown-basic">
+                    <Dropdown.Toggle style={{ border: 'none', fontSize: '12px' }} id="dropdown-basic">
                         Tạo hoặc tham gia nhóm
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -180,7 +183,11 @@ export const Group = () => {
                 </Dropdown>
                 <div className={styles.gridContainer}>
                     {groups.map((group, index) => (
-                        <div key={index} className={`${styles.groupItem} ${index % 2 === 0  ? styles.group1 : styles.group2}`}>
+                        <div key={index} className={`${styles.groupItem} ${index % 2 === 0 ? styles.group1 : styles.group2}`}
+                        style={{ 
+                                backgroundColor: backgroundColors[index % backgroundColors.length], 
+                                borderColor: borderColors[index % borderColors.length] 
+                            }}>
                             <div onClick={() => handleGroupClick(group.groupid)}>
                                 <div className={styles.groupContent}>
                                     <span className={styles.groupName}>{group.groupname}</span>

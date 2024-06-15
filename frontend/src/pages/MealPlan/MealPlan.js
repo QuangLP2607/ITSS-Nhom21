@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'; 
-import { Container, Row, Form, Button, Table, Modal } from 'react-bootstrap'; 
+import { Container, Row, Form, Button, Table, Modal, Dropdown } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
 import globalstyles from '../../CSSglobal.module.css';
@@ -13,7 +13,7 @@ import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext
 
 export const MealPlan = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
-    const [meal, setMeal] = useState('breakfast');
+    const [meal, setMeal] = useState('Sáng');
     const [recipes, setRecipes] = useState([]);
     const listRecipes = useFetchListRecipes();
     const [showAddModal, setShowAddModal] = useState(false);
@@ -45,10 +45,15 @@ export const MealPlan = () => {
         setSelectedDate(currentDate.toISOString().slice(0, 10));
     };
 
-    const handleMealSelection = (event) => {
-        const selectedMeal = event.target.value;
-        setMeal(selectedMeal);
-    }; 
+    const handleMealSelection = (eventKey) => {
+        let mealText;
+        switch (eventKey) {
+            case 'breakfast':   mealText = 'Sáng';  break;
+            case 'lunch':       mealText = 'Trưa';  break;
+            case 'dinner':      mealText = 'Tối';   break;
+        }
+        setMeal(mealText);
+    };
     //-------------------------------------------------------
     //-------------------Thêm món ăn-------------------------
     const [newRecipe, setNewRecipe] = useState({
@@ -174,12 +179,12 @@ export const MealPlan = () => {
            <Sidebar/>
            <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Kế hoạch nấu ăn</div>
-                <Button className={globalstyles['add-button']} variant="dark" onClick={handleAddButtonClick}>Thêm mới</Button>
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: '30px', marginLeft: '50px' }}>
-                    <img src={Arrow} alt="Previous Day" style={{ cursor: 'pointer', marginRight: '10px', width: '20px', height: '20px', transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
-                    <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+                <Button className={globalstyles['add-button']} onClick={handleAddButtonClick}>Thêm mới</Button>
+                <div className={globalstyles.flexRow}>
+                    <img src={Arrow} alt="Previous Day" className={styles.arrowIcon} style={{ transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
+                    <div>
                         <Form.Control
-                            style={{ width: '150px' }}
+                            style={{ width: '200px', cursor: 'pointer' }}
                             aria-label="DD/MM/yy"
                             aria-describedby="basic-addon1"
                             type="date" 
@@ -187,12 +192,17 @@ export const MealPlan = () => {
                             onChange={handleDateChange}
                         />
                     </div>
-                    <img src={Arrow} alt="Meal Select" style={{ cursor: 'pointer', width: '20px', height: '20px', marginLeft: '10px' }} onClick={handleNextDay} />
-                    <select value={meal} onChange={handleMealSelection} style={{border: '1px solid #ced4da', borderRadius: '5px', padding: '6px', marginLeft: '50px'}}>
-                        <option value="breakfast">Sáng</option>
-                        <option value="lunch">Trưa</option>
-                        <option value="dinner">Tối</option>
-                    </select>
+                    <img src={Arrow} alt="Next Day" className={styles.arrowIcon} onClick={handleNextDay} />
+                    <Dropdown onSelect={handleMealSelection}>
+                        <Dropdown.Toggle variant="light" id="dropdown-basic" className={styles.selectRole}>
+                            {meal} 
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item eventKey="breakfast">Sáng</Dropdown.Item>
+                            <Dropdown.Item eventKey="lunch">Trưa</Dropdown.Item>
+                            <Dropdown.Item eventKey="dinner">Tối</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
                 <Table className={globalstyles['table-1300']}>
                     <thead>

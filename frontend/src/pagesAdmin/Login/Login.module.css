@@ -1,0 +1,39 @@
+.startBackground {
+    background-image: url('../../../assets/img/Start.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: calc(100vh - 100px);
+    position: relative;
+    display: flex; 
+    justify-content: center;
+}
+
+.loginContainer {
+    position: relative; 
+    width: 400px;
+    height: 450px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-top: 50px; 
+    padding:30px;
+}
+
+.btnLogin{
+    width: 100%;
+    margin: 30px 0px 10px;
+    height: 35px;
+    border-radius: 15px;
+    color: white;
+    font-size: 16px;
+}
+
+.selectRole {
+    width: 100%;
+    color: black;
+    border: 0.1px solid rgb(212, 212, 212); 
+    text-align: left;  
+}
+
+  

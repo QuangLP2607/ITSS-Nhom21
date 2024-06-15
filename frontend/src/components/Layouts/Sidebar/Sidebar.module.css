@@ -1,14 +1,14 @@
 .left-content {
     position: fixed;
     top: 0vh;
-    width: 18vw;
-    background: linear-gradient(135deg,rgb(16, 66, 146)30%,rgb(157, 187, 246) 100%);
-
-    height:100vh;
-    overflow: auto;
-    transition: transform 0.3s ease-in-out; 
-    transform: translateX(-100%); 
-    z-index: 998;
+    height: 100vh;
+    width: 270px;
+    background-color: #3d7cf3;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding-right: 25px;
 }
 
 .left-content.show {
@@ -16,7 +16,6 @@
 }
 
 .hamburger-button {
-    overflow: hidden;
     width: 40px;
     height: 40px;
     border-radius: 5px;
@@ -25,13 +24,7 @@
 }
 
 .hamburger-button.active img {
-    transform: rotate(90deg); 
-}
-
-@media screen and (min-width: 1000px) {
-    .hamburger-button {
-        display: none; 
-    }
+    transform: rotate(90deg);
 }
 
 .sitemap {
@@ -39,38 +32,42 @@
 }
 
 .sitemap li {
-    margin-top: 20px;
     list-style: none;
     font-size: 20px;
-    
 }
 
 .sitemap li a {
-    margin-top: 5%;
     display: block;
     color: #ffffff;
-    padding: 8px 16px;
+    padding: 8px;
     text-decoration: none;
-    white-space: nowrap; 
+    width:100%;
+}
+
+.sitemap li a.active {
+    background-color: #ffffff33;
 }
 
 .sitemap li a:hover:not(.active) {
-    background-color: #545499;
-    margin-right: 30px;
-    border-radius: 10px;
-    color: white;
+    background-color: #ffffff6d;
+    border-radius: 2px;
 }
 
+.separator {
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid rgba(243, 243, 243, 0.77);
+}
 
-.logout-button {
-    background-color: rgb(11, 9, 9);
-    border-color: rgb(184, 6, 6);
-    margin-top: 19vh;
+.logoutButton {
+    background-color: rgb(6, 76, 132);
+    border-color: rgb(0, 110, 255);
+    margin-top: 10vh;
     margin-left: 20px;
 }
 
-.logout-button:hover {
-    background-color: red; 
+.logoutButton:hover {
+    background-color: red;
 }
 
 .overlay {
@@ -79,31 +76,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 997; 
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
 }
 
 @media (max-width: 1250px) {
-    .sitemap li {
-        font-size: 14px;
-    }
-
-}
-
-@media (max-width: 1000px) {
-    .left-content {
-        width: 300px;
-    }
-
-    .sitemap li {
-        margin-top: 20px;
-        list-style: none;
-        font-size: 20px;
-    }
-
     .hamburger-button {
+        display: block;
         position: fixed;
-        left: 10px;
-        z-index: 996; 
+        left: 5px;
+        top: 105px;
+        z-index: 2;
     }
 }

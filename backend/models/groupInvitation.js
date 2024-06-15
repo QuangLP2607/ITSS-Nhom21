@@ -32,9 +32,8 @@ export default class GroupInvitation {
         try {
             const invitationid = req.query.invitationid;
             const { status } = req.body;
-
-            const query = 'UPDATE groupInvitations SET status = $1, updatedAt = CURRENT_TIMESTAMP WHERE invitationId = $2 RETURNING *';              
-            await client.query(query, [status, invitationid]);        
+            const updateQuery = 'UPDATE public.groupinvitations SET status = $1 WHERE invitationid = $2';
+            await client.query(updateQuery, [status, invitationid]);
             
         } catch (error) {
             throw error;
