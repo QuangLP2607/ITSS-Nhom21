@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Header } from './components/Layouts/Header/Header';
+
 import { Start } from  './pages/Start/Start';
 import { Group } from './pages/Group/Group';
 import { Home } from './pages/Home/Home';
@@ -9,13 +9,13 @@ import { MealPlan } from './pages/MealPlan/MealPlan';
 import { Recipes } from  './pages/Recipes/Recipes';
 import { FoodStorage } from './pages/FoodStorage/FoodStorage';
 
-import { LoginAdmin } from './pagesAdmin/Login/Login';
+import {LoginAdmin} from './pagesAdmin/Login/Login';
 import React from 'react';
 
 export const App = () => {
     return (
         <>
-            <Header/>        
+             
             <Routes>
                 <Route path="/" element={<Start/>}/>
                 <Route path="/group" element={<Group/>}/>

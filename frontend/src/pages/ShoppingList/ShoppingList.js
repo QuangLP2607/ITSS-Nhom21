@@ -10,6 +10,7 @@ import useFetchListItems from '../../components/hooks/useFetchItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import {Header} from '../../components/Layouts/Header/Header'
 
 export const ShoppingList = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -212,6 +213,7 @@ export const ShoppingList = () => {
     
     return (
         <div>
+            <Header></Header>
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách mua sắm</div>

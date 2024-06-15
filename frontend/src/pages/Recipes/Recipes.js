@@ -10,6 +10,7 @@ import useFetchListRecipes from '../../components/hooks/useFetchRecipesList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import {Header} from '../../components/Layouts/Header/Header'
 
 export const Recipes = () => {
     const [inputRecipe, setInputRecipe] = useState('');
@@ -157,6 +158,7 @@ export const Recipes = () => {
 
     return (
         <div>
+            <Header></Header>
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách công thức nấu ăn</div>

@@ -6,6 +6,12 @@ CREATE TABLE Users (
     Email VARCHAR(100),
     Password VARCHAR(255)
 );
+CREATE TABLE Admin (
+    UserId SERIAL PRIMARY KEY,
+    Username VARCHAR(100),
+    Email VARCHAR(100),
+    Password VARCHAR(255)
+);
 
 -- Bảng Groups
 CREATE TABLE Groups (
@@ -190,6 +196,9 @@ INSERT INTO Users (Username, Email, Password) VALUES
     ('lisa_kudrow', 'lisa.kudrow@example.com', '123456'),
     ('brad_pitt', 'brad.pitt@example.com', '123456');
 
+
+INSERT INTO Admin (Username, Email, Password) VALUES
+    ('admin', 'admin@gmail.com', '$2b$10$BTFeHTmPMbwxR7vn41nFhezZfKpr8EB0XLIapYRYcycyhNZhbjwm2'),
 -- Bảng Groups
 INSERT INTO Groups (GroupId, GroupName) VALUES
     (1, 'FamilyNo1'),

@@ -9,6 +9,7 @@ import useFetchListUsers from '../../components/hooks/useFetchUsersList';
 import { UserIdContext, GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Header} from '../../components/Layouts/Header/Header'
 
 export const Group = () => {
     const listUsers = useFetchListUsers();
@@ -170,6 +171,7 @@ export const Group = () => {
 
     return (
         <div>
+            <Header></Header>
             <Container fluid className={styles['main-background']}>
                 <div style={{ fontSize: '25px', fontWeight: 'bold' }}>Nhóm của bạn</div>
                 <Dropdown className={styles['add-button']}>

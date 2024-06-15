@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Start.module.css';
 import { UserIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import {Header} from '../../components/Layouts/Header/Header'
 import { Icon } from '@iconify/react';
 
 export const Start = () => {
@@ -85,6 +86,8 @@ export const Start = () => {
     };
 
     return (
+    <React.Fragment>
+       
         <div className={styles.startBackground}>
             <Container className={styles.mainContainer}>
                 <p className={styles.hello}>Chào mừng bạn đến với Gia đình 360</p>
@@ -152,5 +155,7 @@ export const Start = () => {
                 </div>
             </Container>
         </div>
+        </React.Fragment>
     );
+    
 };

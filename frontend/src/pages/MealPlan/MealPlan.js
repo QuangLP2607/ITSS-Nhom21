@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import useFetchListRecipes from '../../components/hooks/useFetchRecipesList';
 import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
+import {Header} from '../../components/Layouts/Header/Header'
 
 export const MealPlan = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
@@ -176,6 +177,7 @@ export const MealPlan = () => {
     
     return (
         <div>
+            <Header></Header>
            <Sidebar/>
            <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Kế hoạch nấu ăn</div>

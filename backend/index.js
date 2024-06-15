@@ -16,9 +16,11 @@ app.use(express.json());
 
 // Routes declaration
 import userRoute from './routes/user.js';
+import adminRoute from './routes/admin.js';
 
 // Use routes
 app.use('/users', userRoute);
+app.use('/admin', adminRoute);
 
 
 
