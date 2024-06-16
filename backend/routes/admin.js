@@ -4,9 +4,9 @@ import {isAuthUser} from '../middleware/auth.js'
 const router = express.Router()
 
     router.route('/login')
-        .post(AdminControllers.loginAmin)
+        .post(AdminControllers.loginAdmin)
     router.route('/logout')
-        .get(AdminControllers.logoutAmin)
+        .get(AdminControllers.logoutAdmin)
     router.route('/items')
         .get(AdminControllers.getAllItems)
         .post(AdminControllers.createItems)
@@ -17,5 +17,11 @@ const router = express.Router()
         .post(AdminControllers.createRecipes)
         .patch(AdminControllers.updateRecipes)
         .delete(AdminControllers.deleteRecipes)
+
+    router.route('/group')
+        .get(AdminControllers.getAllGroup)
+        // .post(AdminControllers.createRecipes)
+        // .patch(AdminControllers.updateRecipes)
+        // .delete(AdminControllers.deleteRecipes)
     
 export default router;

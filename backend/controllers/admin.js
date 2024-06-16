@@ -1,7 +1,7 @@
 import client from '../config/db.js';
 import Admin from '../models/admin.js'
 export default class AdminControllers {
-    static async loginAmin(req, res, next) {
+    static async loginAdmin(req, res, next) {
         try {
             const isPasswordCorrect = await Admin.comparePassword(req, res, next);
             if (!isPasswordCorrect) {
@@ -22,7 +22,7 @@ export default class AdminControllers {
         }
     }
 
-    static async logoutAmin(req, res, next) {
+    static async logoutAdmin(req, res, next) {
         try {
             res.clearCookie('token');
             res.status(200).json({ message: 'logged out successfully' });
@@ -127,6 +127,15 @@ export default class AdminControllers {
                 return res.status(404).json({ error: 'Recipe not found' });
             }
             res.status(200).json({ message: 'Recipe deleted successfully' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
+
+    static async getAllGroup(req, res, next)  {
+        try {
+            const result = await client.query('SELECT * FROM groups');
+            res.status(200).json(result.rows);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
