@@ -7,12 +7,27 @@ export default class Admin {
     constructor(id, role) {
         this.id = id;
         this.role = role;
-        this.adminSetup();
+        this.adminSetup().catch(error => {
+            console.error('Error in adminSetup constructor:', error);})
     }
+
+    // async setup() {
+    //     try {
+    //         const query = `SELECT exists (SELECT 1 FROM pg_roles WHERE rolname = '${this.id}');`;
+    //         const { rows } = await client.query(query);
+    //         if (rows[0].exists) {
+    //             return;   
+    //         } else {
+    //             await this.createRole();
+    //         }          
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 
     async adminSetup() {
         try {
-            await this.setup();
+            // await this.setup();
             const query = `
                 GRANT ALL PRIVILEGES ON DATABASE itss TO $1;
                 SET SESSION AUTHORIZATION $2;

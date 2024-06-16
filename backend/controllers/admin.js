@@ -78,9 +78,11 @@ export default class AdminControllers {
             }
             res.status(200).json({ message: 'Item deleted successfully' });
         } catch (error) {
+            console.error('Error deleting item:', error); // Log error to console
             res.status(500).json({ error: error.message });
         }
     }
+    
 
     static async getAllRecipes(req, res, next)  {
         try {

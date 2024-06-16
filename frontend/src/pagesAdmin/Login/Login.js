@@ -22,7 +22,7 @@ export const LoginAdmin = () => {
             if (response && response.data) {
                 const { data } = response;
                 // const userid = data.userid;
-                navigate('/group');
+                navigate('/manage_item');
             } else {
                 setLoginError('Unexpected response from server');
             }
