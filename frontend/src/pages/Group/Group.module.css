@@ -1,0 +1,135 @@
+.main-background {
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-top: 2vh; 
+    margin-left: 2vw;
+    width: 96vw;
+    padding-bottom: 30px;
+    min-height: 83vh; 
+}
+
+.add-button {
+    position: absolute;
+    top: 130px;
+    right: 3.5vw;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr); 
+    gap: 10px;
+}
+
+.groupItem {
+    position: relative;
+    border: 6px solid #545454;
+    border-radius: 5px;
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    margin-top: 50px;
+    background-color: #ffdddd;
+}
+
+.groupContent {
+    text-align: center;
+}
+
+.groupName {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.groupId {
+    margin-top: 50px;
+}
+
+.leaveIcon {
+    position: absolute;
+    bottom: 3%;
+    right: 2%;
+    width:30px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa; 
+    transition: transform 0.3s ease; 
+    transform: rotate(90deg);
+}
+
+.leaveIcon:hover {
+    color: #555;
+}
+
+
+.leaveOption { 
+    position: absolute;
+    bottom: 3%;
+    right: 2%;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    width: 90px;
+    background-color: #f0f0f0; 
+    z-index: 1001;
+}
+
+.leaveOption:hover {
+    color: white;
+    background-color: #f04c4c; 
+}
+
+.group1 {
+    grid-column: 3 / 6; 
+}
+
+.group2 {
+    grid-column: 7 / 10; 
+}
+
+
+.suggestions {
+    position: absolute; 
+    margin-top: 10px;
+    margin-left: 2%;
+    height: 60px; 
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding-left: 10px;
+    background: rgb(244, 242, 242);
+    z-index: 1000;
+    width: 90%;
+    overflow-y: auto;
+}
+
+.suggestion_item {
+    padding: 2px; 
+    cursor: pointer;
+}
+
+.suggestion_item:hover {
+    background-color: #f0f0f0; 
+}
+
+.suggestions::-webkit-scrollbar {
+    width: 2px; 
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+    background-color: #888; 
+    border-radius: 0; 
+}
+
+.selected_members {
+    height: 80px; 
+    margin-left: 2%;
+    border: 0.5px solid #000000;
+    border-radius: 5px;
+    padding-left: 10px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
+    width: 90%;
+    overflow-y: auto;
+}

@@ -1,0 +1,5 @@
+myenv
+node_modules
+.env
+.prettierrc
+package-lock.json

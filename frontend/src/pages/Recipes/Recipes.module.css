@@ -1,0 +1,37 @@
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 3px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.tag-suggestions {
+    position: absolute;
+    background-color: #ffffff; 
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 0 10px;
+    max-height: 100px;
+    width: 180px;
+    overflow-Y: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.selected-tags {
+    margin-top:10px;
+    margin-left:50px;
+}
+
+.favorite-recipe{
+    display: flex;
+    align-items: center;
+    background-color: #3ba2e8; 
+    border: 1px solid #000000; 
+    border-radius: 5px;
+    padding: 2px 10px;
+    cursor: pointer;
+    user-select: none;
+}
