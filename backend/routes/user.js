@@ -54,10 +54,12 @@ const router = express.Router()
 
     router.route('/foodStorage')
         .get(isAuthUser,UserControllers.getFoodStorage)
+        .post(isAuthUser,UserControllers.addFoodStorage)
         .delete(isAuthUser,UserControllers.deleteFoodStorage)  
         .patch(isAuthUser,UserControllers.updateFoodStorage)
   
     router.route('/expiryAlert')
         .get(isAuthUser,UserControllers.getExpiryAlerts)
+        .patch(isAuthUser,UserControllers.updateExpiryAlerts)
 
 export default router;

@@ -5,8 +5,9 @@ export default class ShoppingItems {
     
     static async getShoppingItems(req, res, next) {
         try {
-            const query = `SELECT * FROM shoppingitems 
-            JOIN items USING (itemid) WHERE groupid = $1 AND dateadded = $2`;
+            const query =  `SELECT * FROM shoppingitems 
+                            JOIN items USING (itemid) 
+                            WHERE groupid = $1 AND dateadded = $2 ORDER BY quantity`;
             const groupid = req.query.groupid;
             const dateadded = req.query.dateadded;
             const result = await client.query(query, [groupid, dateadded]); 

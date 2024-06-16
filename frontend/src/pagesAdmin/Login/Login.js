@@ -1,93 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Dropdown } from 'react-bootstrap';
+import React, { useState, useContext, useEffect } from 'react';
+import { Container, Nav, Tab, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from './Login.module.css';
-import axios from 'axios'; 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; 
+import { Icon } from '@iconify/react';
 
 export const LoginAdmin = () => {
-    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [role, setRole] = useState('student'); 
-    const [passwordVisible, setPasswordVisible] = useState(false); 
+    const [loginError, setLoginError] = useState('');
+    const navigate = useNavigate();
 
-    const handleSelect = (eventKey) => {
-        setRole(eventKey); 
-    };
-
-    const handleTogglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
-    };
-
+    useEffect(() => {
+        setLoginError('');
+    }, []);
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
             const config = { headers: { 'Content-Type': 'application/json' } };
-            let response;
-            if (role === 'admin') {
-                response = await axios.post('/admin/login', { email, password }, config);
-            } else if( role === 'student') {
-                response = await axios.post('/student/login', { email, password }, config);
-            } else {
-                response = await axios.post('/lecturer/login', { email, password }, config);
-            }
-            
+            let response = await axios.post('/admin/login', { email, password }, config);
             if (response && response.data) {
                 const { data } = response;
-                localStorage.setItem('auth', data.success);
-                localStorage.setItem('id', data.id);
-                localStorage.setItem('role', role);
-                if (role === 'admin') {
-                    navigate('/student');
-                } else if(role === 'student'){
-                    navigate('/home');
-                }else{
-                    navigate('/profile');
-                }
-
+                // const userid = data.userid;
+                navigate('/manage_group');
             } else {
-                setError('Unexpected response from server');
+                setLoginError('Unexpected response from server');
             }
         } catch (error) {
-            setError(error.response ? error.response.data.message : 'An error occurred');
+            setLoginError('Tài khoản hoặc mật khẩu không đúng !');
         }
     };
 
-    useEffect(() => {
-        if (localStorage.getItem('auth')) {
-            console.log('Already logged in');
-            const storedRole = localStorage.getItem('role');
-            if (storedRole === 'admin') {
-                navigate('/student');
-            } else if (storedRole === 'student') {
-                navigate('/home');
-            } else {
-                navigate('/profile');
-            }
-        }
-    }, [navigate]);
-
     return (
         <div className={styles.startBackground}>
-            <Form onSubmit={(event) => {handleLogin(event)}} className={styles.loginContainer} >
-                <h2 style={{ textAlign: 'center' }}>Đăng nhập</h2>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email:</Form.Label>
-                    <Form.Control type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicPassword" style={{ marginTop: '15px', position: 'relative' }} >
-                    <Form.Label>Password:</Form.Label>
-                    <div className={styles.passwordInputGroup}>
-                        <Form.Control type={passwordVisible ? "text" : "password"} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                        <FontAwesomeIcon icon={passwordVisible ? faEye : faEyeSlash} onClick={handleTogglePasswordVisibility} style={{ position: 'absolute', right: '10px', top: '73%', transform: 'translateY(-50%)', cursor: 'pointer' }}/>
-                    </div>
-                </Form.Group>            
-                <div style={{ position: 'fixed', textAlign: 'center', color: 'red' }}>{error && <p>Tài khoản hoặc mật khẩu không chính xác!</p>}</div>
-                <Button type="submit" className={styles.btnLogin} variant="primary" >Đăng nhập</Button>
-            </Form>
+            <Container className={styles.mainContainer}>
+                <p className={styles.hello}>Chào mừng bạn đến với Gia đình 360</p>
+                <div style={{padding: '0 30px'}}>
+                    <Tab.Container id="start-tabs" defaultActiveKey="login">
+                        
+                            <Nav.Item className={styles.navItem}>
+                                <Nav.Link eventKey="login" className={styles.navLink}>Đăng nhập</Nav.Link>
+                            </Nav.Item>
+                      
+                            <Tab.Content >
+                                <Tab.Pane eventKey="login" style={{marginTop: '20px'}}>
+                                    <Form onSubmit={handleLogin} style={{display: 'grid', gap: '30px'}}>
+                                        <Form.Group controlId="loginEmail">
+                                            <Form.Label>Email:</Form.Label>
+                                            <Form.Control type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        </Form.Group>
+                                        <Form.Group controlId="loginPassword">
+                                            <Form.Label>Mật khẩu:</Form.Label>
+                                            <Form.Control type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                        </Form.Group>
+                                        {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
+                                        <div>
+                                            <Button type="submit" className={styles.btn}>Đăng nhập</Button>
+                                            {/* <div className={styles.or}>Hoặc</div>
+                                            <div className={styles.iconContainer}>
+                                                <div className={styles.logoIcon}><Icon icon="ant-design:google-circle-filled" style={{color: '#e11d48'}}/></div>
+                                                <div className={styles.logoIcon}><Icon icon="mdi:facebook" style={{color: '#4f46e5'}}/></div>
+                                                <div className={styles.logoIcon}><Icon icon="mage:tiktok-circle" style={{color: '#000000'}}/></div>
+                                            </div> */}
+                                        </div>
+                                    </Form>
+                                </Tab.Pane>
+
+                            </Tab.Content>
+
+                    </Tab.Container>
+                </div>
+            </Container>
         </div>
     );
 };

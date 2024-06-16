@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Button, Table, Modal } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
+import {Header} from '../../components/Layouts/Header/Header';
 import Pagination from '../../components/pagination/pagination';
 import globalstyles from '../../CSSglobal.module.css';
 import styles from './Recipes.module.css';
@@ -157,6 +158,7 @@ export const Recipes = () => {
 
     return (
         <div>
+            <Header/>
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách công thức nấu ăn</div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Table, Modal, Button } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
+import {Header} from '../../components/Layouts/Header/Header';
 import globalstyles from '../../CSSglobal.module.css';
 import { GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -99,6 +100,7 @@ export const FoodStorage = () => {
     
     return (
         <div>
+            <Header/>
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Tủ lạnh</div>

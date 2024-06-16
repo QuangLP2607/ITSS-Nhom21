@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Button, Table, Form, Modal } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
+import {Header} from '../../components/Layouts/Header/Header';
 import globalstyles from '../../CSSglobal.module.css';
 import styles from './ShoppingList.module.css';
 import Pagination from '../../components/pagination/pagination';
@@ -52,7 +53,6 @@ export const ShoppingList = () => {
         status: ''
     });
 
-    // Ngăn cho ô input quantity nhập số
     const handleQuantityChange = (e) => {
         const value = e.target.value;
         const filteredValue = value.replace(/\D/g, '');
@@ -78,9 +78,18 @@ export const ShoppingList = () => {
         setIsNewItemRowVisible(true);
     };
     
-    const handleConfirmButtonClick = async () => {
+    const addShoppingItem = async () => {
         if (newItem.itemname && newItem.quantity && newItem.quantity !== '0' && newItem.status) {
-            await addToDatabase(); 
+            if (newItem.status === "true") {
+                setAddToFoodStorageData(prevState => ({
+                    ...prevState,
+                    quantity: newItem.quantity,
+                    itemid: newItem.itemid
+                }));
+                
+                await updateFoodStorage();
+            }
+            await handleAddShoppingItem(); 
             fetchSearchItems();
             setIsNewItemRowVisible(false);
             setNewItem({shoppingitemid: '',itemid: '',itemname: '',quantity: '',note: '',status: ''});
@@ -89,7 +98,7 @@ export const ShoppingList = () => {
         }
     };
     
-    const addToDatabase = async () => {  
+    const handleAddShoppingItem = async () => {
         try {
             const response = await axios.post('/users/shoppingitems', {
                 ...newItem,
@@ -99,7 +108,7 @@ export const ShoppingList = () => {
             return response.data.newShoppingItemId;
         } catch (error) {
             console.error('Error adding item:', error);
-            throw error; 
+            throw error;
         }
     };
     
@@ -135,7 +144,7 @@ export const ShoppingList = () => {
             shoppingitemid: item.shoppingitemid,
             quantity: item.quantity,
             note: item.note,
-            status: item.status
+            status: item.status ? 'true' : 'false'
         }));
     };
     
@@ -148,20 +157,38 @@ export const ShoppingList = () => {
     
     const [quantityError, setQuantityError] = useState(false);
 
-    const handleUpdate = () => {
-        if (!editingItem.quantity || editingItem.quantity === '0') {
-            setQuantityError(true);
-            return;
+    const updateShoppingItem = async () => {
+        try {
+            if (!editingItem.quantity || editingItem.quantity === '0') {
+                setQuantityError(true);
+                return;
+            }
+            if (editingItem.status === 'true') {
+                setAddToFoodStorageData(prevState => ({
+                    ...prevState,
+                    quantity: editingItem.quantity,
+                    itemid: editingItem.shoppingitemid
+                }));
+                await updateFoodStorage(); 
+            }
+            await handleUpdateShoppingItem();
+            fetchSearchItems();
+            handleCancelEdit();
+        } catch (error) {
+            console.error('Error updating shopping item:', error);
+            setShowAlert(true); 
         }
-        axios.patch(`/users/shoppingitems?shoppingitemid=${editingItem.shoppingitemid}`, editingItem)
-            .then(() => {
-                fetchSearchItems();   
-                handleCancelEdit();
-            })
-            .catch(error => {
-                console.error('Error updating item:', error);
-            });
     };
+    
+    const handleUpdateShoppingItem = async () => {
+        try {
+            await axios.patch(`/users/shoppingitems?shoppingitemid=${editingItem.shoppingitemid}`, editingItem);
+        } catch (error) {
+            console.error('Error updating shopping item:', error);
+        }
+    };
+    
+    
     
     const handleQuantityChange1 = (e) => {
         const value = e.target.value;
@@ -179,6 +206,34 @@ export const ShoppingList = () => {
         });
     };
 
+    //-------------------------------------------------------
+    //---------------Add to FoodStorage----------------------
+    const [modalUpdateConfirm, setModalUpdateConfirm] = useState(false);
+    const [autoAddToFoodStorage, setAutoAddToFoodStorage] = useState(false);
+    const [addToFoodStorageData, setAddToFoodStorageData] = useState({
+        quantity: '',
+        itemid: '',
+        groupid: groupId,
+    });
+
+    const updateFoodStorage = async () => {
+        console.log(addToFoodStorageData);
+        if (autoAddToFoodStorage) {
+            await handleUpdateFoodStorage();
+        } else {
+            setModalUpdateConfirm(true);
+        }
+    };
+
+    const handleUpdateFoodStorage = async () => {
+        try {
+            await axios.post(`/users/foodStorage`, addToFoodStorageData);
+            setModalUpdateConfirm(false);
+        } catch (error) {
+            console.error('Error updating food storage:', error);
+        }
+    };
+    
     //-------------------------------------------------------
     //----------------Chuyển page----------------------------
     const [currentPage, setCurrentPage] = useState(1); 
@@ -212,6 +267,7 @@ export const ShoppingList = () => {
     
     return (
         <div>
+            <Header/>
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách mua sắm</div>
@@ -229,6 +285,14 @@ export const ShoppingList = () => {
                         />
                     </div>
                     <img src={Arrow} alt="Next Day" className={styles.arrowIcon} onClick={handleNextDay} />
+
+                    <input
+                    type="checkbox"
+                    checked={autoAddToFoodStorage}
+                    onChange={() => setAutoAddToFoodStorage(!autoAddToFoodStorage)}
+                    className={styles.checkBox}
+                  />
+                    <div>Tự động thêm vào tủ lạnh</div>
                 </div>
                 {quantityError && <p style={{ color: 'red' }}>Số lượng không thể bằng 0. Vui lòng nhập một giá trị hợp lệ.</p>}
                 <Table className={globalstyles['table-1300']}>
@@ -288,7 +352,7 @@ export const ShoppingList = () => {
                                 <td style={{ textAlign: 'center', width: 'auto', height: '100%' }}>
                                     {editingItem.shoppingitemid === item.shoppingitemid ? (
                                         <React.Fragment>
-                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleUpdate}>
+                                            <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={updateShoppingItem}>
                                                 <FontAwesomeIcon icon={faCheck} color="green" size="xl" />
                                             </div>
                                             <div className={globalstyles['icon-container']} style={{backgroundColor: 'rgb(255, 255, 255)'}} onClick={handleCancelEdit}>
@@ -360,7 +424,7 @@ export const ShoppingList = () => {
                                     </select>
                                 </td>
                                 <td style={{ textAlign: 'center'}}>
-                                    <Button variant="dark" onClick={handleConfirmButtonClick} 
+                                    <Button variant="dark" onClick={addShoppingItem} 
                                         style={{ border: 'none', fontSize: '12px' }}>
                                         Xác nhận
                                     </Button>
@@ -405,6 +469,40 @@ export const ShoppingList = () => {
                     </Button>
                     <Button variant="danger" onClick={() => handleDeleteConfirmed(itemToDelete)}>
                         Xóa
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            {/* Modal for confirmation */}
+            <Modal show={modalUpdateConfirm} onHide={() => setModalUpdateConfirm(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Update</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to update food storage?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setModalUpdateConfirm(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={() => handleUpdateFoodStorage('update')}>
+                        Update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+             {/* Modal for confirmation */}
+            <Modal show={modalUpdateConfirm} onHide={() => setModalUpdateConfirm(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Update</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to update food storage?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setModalUpdateConfirm(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={() => handleUpdateFoodStorage()}>
+                        Update
                     </Button>
                 </Modal.Footer>
             </Modal>

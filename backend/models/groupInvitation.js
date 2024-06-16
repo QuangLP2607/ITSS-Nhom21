@@ -7,7 +7,10 @@ export default class GroupInvitation {
         try {
             const receiverid = req.query.userid;
 
-            const query = 'SELECT * FROM GroupInvitations WHERE receiverid = $1 AND status = $2';
+            const query =  `SELECT users.username, groups.groupname, g.* FROM GroupInvitations as g
+                            JOIN groups USING (groupid) 
+                            JOIN users ON g.senderid = users.userid
+                            WHERE g.receiverid = $1 AND g.status = $2`;
             const result = await client.query(query, [receiverid, 'pending']);
 
             return result.rows;
@@ -33,8 +36,7 @@ export default class GroupInvitation {
             const invitationid = req.query.invitationid;
             const { status } = req.body;
             const updateQuery = 'UPDATE public.groupinvitations SET status = $1 WHERE invitationid = $2';
-            await client.query(updateQuery, [status, invitationid]);
-            
+            await client.query(updateQuery, [status, invitationid]);  
         } catch (error) {
             throw error;
         }

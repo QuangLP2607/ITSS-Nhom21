@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Form, Button, Table, Modal, Dropdown } from 'react-bootstrap'; 
 import axios from 'axios';
 import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
+import {Header} from '../../components/Layouts/Header/Header';
 import globalstyles from '../../CSSglobal.module.css';
 import styles from './MealPlan.module.css';
 import Arrow from '../../../assets/img/Arrow.png';
@@ -176,8 +177,9 @@ export const MealPlan = () => {
     
     return (
         <div>
-           <Sidebar/>
-           <Container fluid className={globalstyles['main-background']}>
+            <Header/>
+            <Sidebar/>
+            <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Kế hoạch nấu ăn</div>
                 <Button className={globalstyles['add-button']} onClick={handleAddButtonClick}>Thêm mới</Button>
                 <div className={globalstyles.flexRow}>

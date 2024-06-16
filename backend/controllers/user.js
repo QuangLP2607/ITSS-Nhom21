@@ -183,18 +183,7 @@ export default class UserControllers {
         }
     }
 
-    static async addShoppingItem(req, res, next) {
-        try {
-            const newShoppingItemId = await ShoppingItems.addShoppingItem(req, res, next);
-            await FoodStorage.addFoodStorage(req, res, next)
-            res.status(200).json({  
-                message: 'shoppingItem add successfully',
-                newShoppingItemId: newShoppingItemId 
-            });
-        } catch (error) {
-            res.status(500).json({ error: error });
-        }
-    }
+
     
     static async deleteShoppingItem(req, res, next) {
         try {
@@ -311,6 +300,29 @@ export default class UserControllers {
         }
     }
 
+    static async addFoodStorage(req, res, next) {
+        try {
+            await FoodStorage.addFoodStorage(req, res, next);
+            res.status(200).json({  
+                message: 'foodStorage add successfully'
+            });
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    }
+
+    static async addShoppingItem(req, res, next) {
+        try {
+            const newShoppingItemId = await ShoppingItems.addShoppingItem(req, res, next);
+            res.status(200).json({  
+                message: 'shoppingItem add successfully',
+                newShoppingItemId: newShoppingItemId 
+            });
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    }
+
     static async deleteFoodStorage(req, res, next) {
         try {
             res.status(200).json({
@@ -344,4 +356,16 @@ export default class UserControllers {
             res.status(500).json({ error: error });
         }
     }
+
+    static async updateExpiryAlerts(req, res, next) {
+        try {
+            res.status(200).json({
+                Arlerts: await FoodStorage.updateExpiryAlerts(req, res, next),
+                message: 'expiry alerts updated successfully',
+            });
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    }
+    
 }

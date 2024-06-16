@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'; 
 import { Container , Row } from 'react-bootstrap'; 
-import {Header} from '../../components/Layouts/Header/Header'
+import {Header} from '../../components/Layouts/Header/AdminHeader'
 import axios from 'axios';
-import Sidebar from '../../components/Layouts/Sidebar/Sidebar';
+import Sidebar_admin from '../../components/Layouts/Sidebar/Sidebar_admin';
 import globalstyles from '../../CSSglobal.module.css';
-import styles from './Home.module.css';
+import styles from './Recipe.module.css';
 
-export const Home = () => {
+export const Manage_recipe = () => {
     
     //Lấy danh sách thành viên
 
@@ -14,7 +14,7 @@ export const Home = () => {
     return (
         <div>
             <Header/>
-           <Sidebar/>
+           <Sidebar_admin/>
            <Container fluid className={globalstyles['main-background']}>
                 <div>Thành viên</div>
             </Container>

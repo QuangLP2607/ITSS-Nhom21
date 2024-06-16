@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Container, Button, Dropdown, Modal, Form, Row, Col } from 'react-bootstrap'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {Header} from '../../components/Layouts/Header/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import styles from './Group.module.css';
@@ -170,6 +171,7 @@ export const Group = () => {
 
     return (
         <div>
+            <Header/>
             <Container fluid className={styles['main-background']}>
                 <div style={{ fontSize: '25px', fontWeight: 'bold' }}>Nhóm của bạn</div>
                 <Dropdown className={styles['add-button']}>

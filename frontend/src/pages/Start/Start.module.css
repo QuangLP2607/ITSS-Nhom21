@@ -3,7 +3,7 @@
     background-size: cover;
     background-position: center;
     width: 100vw;
-    height: calc(100vh - 100px);
+    height: 100vh;
 }
 
 .mainContainer {
@@ -11,7 +11,7 @@
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 2px 1px rgba(183, 183, 183, 0.4);
-    top: 150px;
+    top: 100px;
     left: 0;
     right:0;
     width: 500px;
