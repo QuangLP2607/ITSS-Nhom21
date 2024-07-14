@@ -1,0 +1,91 @@
+.left-content {
+    position: fixed;
+    top: 0vh;
+    height: 100vh;
+    width: 270px;
+    background-color: #3d7cf3;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding-right: 25px;
+}
+
+.left-content.show {
+    transform: translateX(0);
+}
+
+.hamburger-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.hamburger-button.active img {
+    transform: rotate(90deg);
+}
+
+.sitemap {
+    margin-top: 130px;
+}
+
+.sitemap li {
+    list-style: none;
+    font-size: 20px;
+}
+
+.sitemap li a {
+    display: block;
+    color: #ffffff;
+    padding: 8px;
+    text-decoration: none;
+    width:100%;
+}
+
+.sitemap li a.active {
+    background-color: #ffffff33;
+}
+
+.sitemap li a:hover:not(.active) {
+    background-color: #ffffff6d;
+    border-radius: 2px;
+}
+
+.separator {
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid rgba(243, 243, 243, 0.77);
+}
+
+.logoutButton {
+    background-color: rgb(6, 76, 132);
+    border-color: rgb(0, 110, 255);
+    margin-top: 10vh;
+    margin-left: 20px;
+}
+
+.logoutButton:hover {
+    background-color: red;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+@media (max-width: 1250px) {
+    .hamburger-button {
+        display: block;
+        position: fixed;
+        left: 5px;
+        top: 105px;
+        z-index: 2;
+    }
+}

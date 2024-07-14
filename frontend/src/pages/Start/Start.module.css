@@ -1,0 +1,88 @@
+.startBackground {
+    background-image: url('../../../assets/img/Start.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.mainContainer {
+    position: fixed;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 2px 1px rgba(183, 183, 183, 0.4);
+    top: 100px;
+    left: 0;
+    right:0;
+    width: 500px;
+    padding-bottom: 30px
+}
+  
+.hello {
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(71, 111, 255); 
+    font-size: 25px; 
+    font-weight: bold; 
+    text-shadow:  2px 1px rgba(183, 183, 183, 0.4);
+}
+
+.navLink {
+    font-size: 18px;
+    font-weight: bold;
+    outline: none; 
+    width: 100%; 
+    text-align: center;
+}
+
+.navItem {
+    display: flex;
+    flex: 1;
+    width: 100%; 
+}
+
+.tab {
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    color: blue; 
+}
+
+
+.btn{
+    width: 100%;
+    height: 35px;
+    border-radius: 15px;
+    outline: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+   
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 20px; 
+
+  }
+  
+.logoIcon {
+    display: flex;
+    font-size: 3rem;
+    cursor: pointer;
+}
+  
+.logoIcon:active {
+    transform: scale(0.9);
+}
+
+.or {
+    display: flex;
+    justify-content: center;
+}

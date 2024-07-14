@@ -1,0 +1,60 @@
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 3px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.tag-suggestions {
+    position: absolute;
+    background-color: #ffffff; 
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 0 10px;
+    max-height: 100px;
+    width: 180px;
+    overflow-Y: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    z-index: 10000;
+}
+
+.selected-tags {
+    margin-top:10px;
+    margin-left:50px;
+}
+
+.inputName {
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+.inputName:focus {
+    border: none;
+    outline: none;
+}
+
+.inputInstructions {
+    min-height: 80px;
+    width: 100%;
+    border-radius: 10px;
+    border: 0.1px solid #d4d4d4;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: vertical;
+
+}
+
+.inputInstructions:focus {
+    border: 0.1px solid #d4d4d4;
+    outline: 0;
+}

@@ -1,0 +1,75 @@
+.classInfo {
+    border: 0.1px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    margin-left: 0; 
+  }
+
+  .flexRow {
+    display: flex;
+    justify-content: space-between;
+    min-height: 65px; 
+  }
+
+  .addMemberContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.addMember {
+    font-size: 12px;
+    padding: 2px 8px;
+}
+
+  .listUser {
+    border: 1px solid #111;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  
+.suggestions {
+  position: absolute; 
+  margin-top: 10px;
+  margin-left: 2%;
+  height: 60px; 
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding-left: 10px;
+  background: rgb(244, 242, 242);
+  z-index: 1000;
+  width: 90%;
+  overflow-y: auto;
+}
+
+.suggestion_item {
+  padding: 2px; 
+  cursor: pointer;
+}
+
+.suggestion_item:hover {
+  background-color: #f0f0f0; 
+}
+
+.suggestions::-webkit-scrollbar {
+  width: 2px; 
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background-color: #888; 
+  border-radius: 0; 
+}
+
+.selected_members {
+  height: 80px; 
+  margin-left: 2%;
+  border: 0.5px solid #000000;
+  border-radius: 5px;
+  padding-left: 10px;
+  background: rgb(255, 255, 255);
+  z-index: 1000;
+  width: 90%;
+  overflow-y: auto;
+}

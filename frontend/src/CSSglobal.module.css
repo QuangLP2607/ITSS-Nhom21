@@ -1,0 +1,98 @@
+html, body {
+    background-color: #d7d7d7;
+    overflow-x: hidden;
+}
+
+.main-background {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin: 15px; 
+    margin-left: 285px;
+    width: calc(100vw - 300px);
+    min-height: calc(100vh - 130px);
+    padding: 20px 30px 30px 30px;
+}
+
+.title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.left-title {
+    margin: 20px;
+    font-size: 25px;
+}
+
+.input {
+    background-color:#ffffff;
+    padding: 0 20px 0 15px;
+    width: 230px;
+    height: 33px;
+    border-radius: 5px;
+    border: 0.1px solid rgb(208, 208, 208);
+}
+
+.button-search{
+    position: absolute;
+    height: 30px; 
+    font-size: 14px;
+    text-align: 'center'; 
+    line-height: normal;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.table-1000 {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.table-1300 {
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.addButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.smallButton{
+    height: 33px; 
+    font-size: 14px;
+    text-align: 'center'; 
+    line-height: normal;
+}
+
+.icon-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center; 
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(35, 170, 243);
+    margin-left: 10px;
+}
+
+.flexRow{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 50px; 
+}
+
+
+@media screen and (max-width: 1000px) {
+    .main-background  {
+        margin-left: 15px;
+        width: calc(100vw - 30px);
+    }
+}
