@@ -4,24 +4,26 @@ import {isAuthUser} from '../middleware/auth.js'
 const router = express.Router()
 
     router.route('/login')
-        .post(AdminControllers.loginAdmin)
+        .post(AdminControllers.loginUser)
     router.route('/logout')
-        .get(AdminControllers.logoutAdmin)
+        .get(AdminControllers.logoutUser)
+    
+    router.route('/resetPassword')
+        .post(isAuthUser,AdminControllers.resetPassword) 
+    
     router.route('/items')
-        .get(AdminControllers.getAllItems)
-        .post(AdminControllers.createItems)
-        .patch(AdminControllers.updateItems)
-        .delete(AdminControllers.deleteItems)
+        .get(isAuthUser,AdminControllers.getAllItems)
+        .post(isAuthUser,AdminControllers.createItems)
+        .patch(isAuthUser,AdminControllers.updateItems)
+        .delete(isAuthUser,AdminControllers.deleteItems)
+        
     router.route('/recipes')
-        .get(AdminControllers.getAllRecipes)
-        .post(AdminControllers.createRecipes)
-        .patch(AdminControllers.updateRecipes)
-        .delete(AdminControllers.deleteRecipes)
+        .get(isAuthUser,AdminControllers.getAllRecipes)
+        .post(isAuthUser,AdminControllers.createRecipes)
+        .patch(isAuthUser,AdminControllers.updateRecipes)
+        .delete(isAuthUser,AdminControllers.deleteRecipes)
 
     router.route('/group')
-        .get(AdminControllers.getAllGroup)
-        // .post(AdminControllers.createRecipes)
-        // .patch(AdminControllers.updateRecipes)
-        // .delete(AdminControllers.deleteRecipes)
-    
+        .get(isAuthUser,AdminControllers.getAllGroup)
+
 export default router;

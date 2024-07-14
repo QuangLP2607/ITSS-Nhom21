@@ -28,10 +28,10 @@ export default class User {
         }
     }
 
-    static async getUserIdAndRole(req, res, next) {
+     static async getUserIdAndRole(req, res, next) {
         try {
             const role = req.baseUrl.split('/')[1];
-            let query = `SELECT userid FROM public.users WHERE email = $1;`;
+            let query = `SELECT userid FROM public.${role} WHERE email = $1;`;
             const { rows } = await client.query(query, [req.body.email]);
             return {
                 id: rows[0].userid, role: role

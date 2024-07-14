@@ -34,7 +34,6 @@ export const Header = () => {
             }
         };
             fetchExpiryAlert();
-
     }, [groupId, userId]);
 
     useEffect(() => {
@@ -54,6 +53,19 @@ export const Header = () => {
         fetchGroupInvitations();
     }, [handleReplyInvitation]);
 
+    // Đổi mật khẩu
+    const handleChangePassWord = () => {
+        try {
+            axios.get('/users/logout');
+            console.log('Logged out successfully');
+     
+      
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+    // Đăng xuất
     const handleLogout = () => {
         try {
             axios.get('/users/logout');
@@ -148,7 +160,6 @@ export const Header = () => {
         </Popover>
     );
 
-
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -186,11 +197,12 @@ export const Header = () => {
                         )}
                     </div>
                     </OverlayTrigger>
-                    <Dropdown className={styles["header-user"]}>
-                        <Dropdown.Toggle style={{ border: 'none' }} id="dropdown-basic">
+                    <Dropdown className={styles["header-user"]} style={{ width: '100%'}}>
+                        <Dropdown.Toggle style={{ border: 'none', width: '100%' }} id="dropdown-basic">
                             Xin chào user
                         </Dropdown.Toggle>
-                        <Dropdown.Menu>
+                        <Dropdown.Menu style={{ width: '100%'}}>
+                        <Dropdown.Item style={{ fontSize: '14px', padding: '5px 10px'}} onClick={handleChangePassWord}>Đổi mật khẩu</Dropdown.Item>
                             <Dropdown.Item style={{ fontSize: '14px', padding: '5px 10px'}} onClick={handleLogout}>Đăng xuất</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

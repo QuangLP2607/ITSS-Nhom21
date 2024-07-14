@@ -10,7 +10,7 @@ import { Recipes } from  './pages/Recipes/Recipes';
 import { FoodStorage } from './pages/FoodStorage/FoodStorage';
 
 import {LoginAdmin} from './pagesAdmin/Login/Login';
-import { Manage_group } from './pagesAdmin/Manage_group/group';
+import { Manage_user } from './pagesAdmin/Manage_user/user';
 import { Manage_item } from './pagesAdmin/Manage_item/item';
 import { Manage_recipe } from './pagesAdmin/Manage_recipe/recipe';
 import React from 'react';
@@ -31,7 +31,7 @@ export const App = () => {
                 <Route path="/loginAdmin" element={<LoginAdmin />}/>
                 <Route path="/manage_item" element={<Manage_item />}/>
                 <Route path="/manage_recipe" element={<Manage_recipe />}/>
-                <Route path="/manage_group" element={<Manage_group />}/>
+                <Route path="/manage_user" element={<Manage_user />}/>
 
 
             </Routes>

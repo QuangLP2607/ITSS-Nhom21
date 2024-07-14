@@ -6,7 +6,7 @@ export default class GroupMember {
     static async getGroupMember(req, res, next) {
         try {
             const groupid = [req.query.groupid];
-            const query = 'SELECT * FROM group_user WHERE groupid = $1';
+            const query = 'SELECT userid, username, email FROM group_user JOIN users USING (userid) WHERE groupid= $1';
             const result = await client.query(query, groupid);
             return result.rows;
         } catch (error) {

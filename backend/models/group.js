@@ -17,16 +17,12 @@ export default class Group {
     static async createGroup(req, res, next) {
         try {
             const { userid, groupname } = req.body;
-
-            // Thêm nhóm mới vào bảng groups và lấy groupid của nhóm vừa tạo
             const createGroupQuery = `
                 INSERT INTO public.groups (groupname)
                 VALUES ($1)
                 RETURNING groupid`;
             const groupResult = await client.query(createGroupQuery, [groupname]);
             const newGroupId = groupResult.rows[0].groupid;
-
-            // Thêm thông tin vào bảng group_user để đánh dấu user là chủ nhóm mới tạo
             const addOwnerQuery = `
                 INSERT INTO public.group_user (userid, groupid, isowner)
                 VALUES ($1, $2, true)`;
@@ -38,7 +34,4 @@ export default class Group {
             throw error;
         } 
     }
-
-    
-   
 }

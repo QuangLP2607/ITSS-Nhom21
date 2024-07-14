@@ -162,7 +162,7 @@ export const Recipes = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách công thức nấu ăn</div>
-                <Button className={globalstyles['add-button']}>Thêm mới</Button>
+                {/* <Button className={globalstyles.addButton}>Thêm mới</Button> */}
 
                 <div style={{ display: 'flex', gap: '20px', marginLeft: '50px' }}>
                     <input type="text" className={globalstyles.input} value={inputRecipe} onChange={inputRecipeName} placeholder="Nhập tên món ăn" />

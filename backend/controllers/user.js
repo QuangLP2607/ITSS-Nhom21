@@ -22,15 +22,15 @@ export default class UserControllers {
             }
             await User.getJsonWebToken(req, res, next); 
             const { id, role } = await User.getUserIdAndRole(req, res, next);
-            if (role === 'admin') {
-                // new Admin(userId, role);
-            } else if (role === 'user') {
-                new User(id, role);
-            }          
+            // if (role === 'admin') {
+            //     new Admin(id, role);
+            // } else if (role === 'user') {
+            //     new User(id, role);
+            // }
             res.status(200).json({
                 success: true,
                 message: 'login successfully',
-                userid: id,
+                userid: id
             });
         } catch (error) {
             res.status(500).json({ message: error.message });

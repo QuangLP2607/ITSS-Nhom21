@@ -19,8 +19,8 @@ export const Start = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setLoginError('');
-        setSignupError('');
+        // setLoginError('');
+        // setSignupError('');
     }, []);
 
     const isEmailValid = (email) => {

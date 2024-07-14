@@ -271,7 +271,7 @@ export const ShoppingList = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Danh sách mua sắm</div>
-                <Button className={globalstyles['add-button']} onClick={handleAddButtonClick}>Thêm mới</Button>
+                <Button className={globalstyles.addButton} onClick={handleAddButtonClick}>Thêm mới</Button>
                 <div className={globalstyles.flexRow}>
                     <img src={Arrow} alt="Previous Day"  className={styles.arrowIcon} style={{ transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
                     <div style={{ marginLeft: '10px', marginRight: '10px'}}>
@@ -472,37 +472,20 @@ export const ShoppingList = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {/* Modal for confirmation */}
-            <Modal show={modalUpdateConfirm} onHide={() => setModalUpdateConfirm(false)} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirm Update</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to update food storage?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setModalUpdateConfirm(false)}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={() => handleUpdateFoodStorage('update')}>
-                        Update
-                    </Button>
-                </Modal.Footer>
-            </Modal>
              {/* Modal for confirmation */}
             <Modal show={modalUpdateConfirm} onHide={() => setModalUpdateConfirm(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Confirm Update</Modal.Title>
+                    <Modal.Title>Xác nhận</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to update food storage?
+                    Bạn có muốn thêm thực phẩm vào tủ lạnh?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setModalUpdateConfirm(false)}>
-                        Cancel
+                    <Button variant="primary" onClick={() => handleUpdateFoodStorage('update')}>
+                        Xác nhận
                     </Button>
-                    <Button variant="primary" onClick={() => handleUpdateFoodStorage()}>
-                        Update
+                    <Button variant="danger" onClick={() => setModalUpdateConfirm(false)}>
+                        Hủy
                     </Button>
                 </Modal.Footer>
             </Modal>

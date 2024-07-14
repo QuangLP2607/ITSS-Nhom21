@@ -8,7 +8,7 @@ import { faTimes, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import styles from './Group.module.css';
 import useFetchListUsers from '../../components/hooks/useFetchUsersList';
 import { UserIdContext, GroupIdContext } from '../../components/context/UserIdAndGroupIdContext';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Group = () => {

@@ -68,9 +68,8 @@ const Sidebar_admin = () => {
                     <hr className={styles.separator} />
                     <li><NavLink to="/manage_recipe" className={location.pathname.includes('/manage_recipe') ? styles.active : ''}>Công thức nấu ăn</NavLink></li>
                     <hr className={styles.separator} />
-                    <li><NavLink to="/manage_group" className={location.pathname.includes('/manage_group') ? styles.active : ''}>Nhóm</NavLink></li>
+                    <li><NavLink to="/manage_user" className={location.pathname.includes('/manage_user') ? styles.active : ''}>Người dùng</NavLink></li>
                     <hr className={styles.separator} />
-                    
                     <li><Button variant="primary" onClick={handleLogout} className={styles.logoutButton}>Đăng xuất</Button></li>
                 </ul>
             </div>

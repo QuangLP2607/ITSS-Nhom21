@@ -1,39 +1,60 @@
-.image_student {
-    width: 250px;
-    height: auto; 
-    border-radius: 2px; 
-    border: 2px solid #000; 
-    position: absolute; 
-    top: 100px; 
-    right: 55%;
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 3px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.tag-suggestions {
+    position: absolute;
+    background-color: #ffffff; 
+    border: 1px solid #000000;
+    border-radius: 5px;
+    padding: 0 10px;
+    max-height: 100px;
+    width: 180px;
+    overflow-Y: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    z-index: 10000;
+}
+
+.selected-tags {
+    margin-top:10px;
+    margin-left:50px;
+}
+
+.inputName {
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+.inputName:focus {
+    border: none;
+    outline: none;
+}
+
+.inputInstructions {
+    min-height: 80px;
+    width: 100%;
+    border-radius: 10px;
+    border: 0.1px solid #d4d4d4;
+    padding: 6px 12px;
     box-sizing: border-box;
-    padding: 2px; 
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: vertical;
+
 }
 
-.container {
-    margin-top: 10px;
-    margin-left: 50%;
-    width: 50%;
-}
-
-.container p {
-    font-size: 14px;
-    margin-bottom: 17px;
-}
-
-@media screen and (max-width: 660px) {
-    .image_student {
-        left: 20vw;
-        width: 50vw;
-    }
-
-    .container {
-        margin-left:13%;
-        width: 80%;
-        margin-top: 60vw;
-    }
-
-    .container p {
-        margin-bottom: 8px;
-        }
+.inputInstructions:focus {
+    border: 0.1px solid #d4d4d4;
+    outline: 0;
 }

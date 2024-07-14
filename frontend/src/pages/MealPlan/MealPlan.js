@@ -181,7 +181,7 @@ export const MealPlan = () => {
             <Sidebar/>
             <Container fluid className={globalstyles['main-background']}>
                 <div className={globalstyles['left-title']}>Kế hoạch nấu ăn</div>
-                <Button className={globalstyles['add-button']} onClick={handleAddButtonClick}>Thêm mới</Button>
+                <Button className={globalstyles.addButton} onClick={handleAddButtonClick}>Thêm mới</Button>
                 <div className={globalstyles.flexRow}>
                     <img src={Arrow} alt="Previous Day" className={styles.arrowIcon} style={{ transform: 'rotate(180deg)' }} onClick={handlePreviousDay} />
                     <div>

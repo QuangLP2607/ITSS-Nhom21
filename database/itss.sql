@@ -30,7 +30,6 @@ CREATE TABLE Group_User (
     FOREIGN KEY (GroupId) REFERENCES Groups(GroupId)
 );
 
-
 -- Bảng Items
 CREATE TABLE Items (
     ItemId SERIAL PRIMARY KEY,
@@ -431,6 +430,7 @@ VALUES ('Milk', 7),
     ('Mussels', 2),
     ('Clams', 2),
     ('Oysters', 2);
+    
 -- Bảng ShoppingItems
 INSERT INTO ShoppingItems (Quantity, DateAdded, Status, ItemId, GroupId)
 VALUES (2, '2024-05-21', TRUE, 1, 1),
